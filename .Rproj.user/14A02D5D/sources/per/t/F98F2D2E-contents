@@ -24,8 +24,8 @@ ggVennDiagram(x, set_color = 'black', label='both', set_size=3, label_size = 2, 
                       limits=c(1,1000))+
   #scale_fill_gradient(name='Number of\nLocalities',
   #                    low="#deebf7", high = "#3182bd",
-  #                    breaks=c(0,250,500,750,1000), labels=c(0,250,500,750,1000),
-  #                    limits=c(0,1000))+
+  #                    breaks=c(0,200,400,600,800), labels=c(0,200,400,600,800),
+  #                    limits=c(0,800))+
   scale_color_manual(values=c('black','black','black','black'))+
   theme(text=element_text(size=8), #change font size of all text
         plot.title=element_text(size=8), #change font size of plot title
@@ -40,8 +40,13 @@ ggsave('fig_venn/fig_venn_v2.png', width=120, height=80, units='mm', dpi=300, bg
 
 
 # Stats ----
-lengths(x)  # number of sites per category
-c(x$A, x$B, x$C, x$D) %>% unique() %>% length() # number of sites in total category
+data <- process_data(venn)
+stat_categories <- lengths(x)  # number of sites per category
+stat_total <- c(x$A, x$B, x$C, x$D) %>% unique() %>% length() # number of sites in total category
+stat_single <- data@region %>% filter(id %in% c(1,2,3,4)) %>% pull(count) %>% sum()   # number of loclaities with 1 category
+stat_double <- data@region %>% filter(id %in% c(12,13,14,23,24,34)) %>% pull(count) %>% sum()   # number of loclaities with 2 categories
+stat_triple <- data@region %>% filter(id %in% c(123,124,134,234)) %>% pull(count) %>% sum()   # number of loclaities with 3 categories
+stat_quadruple <- data@region %>% filter(id %in% c(1234)) %>% pull(count) %>% sum()   # number of loclaities with 4 categories
 
 
 # Old stuff ----
