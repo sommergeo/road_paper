@@ -68,7 +68,7 @@ plt1<- ggplot()+
   #coord_sf(crs = '+proj=natearth2 +lon_0=60 +x_0=0 +y_0=0 +R=6371008.7714 +units=m +no_defs +type=crs', expand=F)+
   scale_x_continuous(breaks = seq(-180, 180, by = 30))+
   scale_y_continuous(breaks = seq(-90, 90, by = 30))+
-  scale_size_continuous(name='Number of assemblages\nper locality', breaks=c(1,10,100,1000), labels=c(1,10,100,1000), limits = c(0,1000), range = c(.1, 18))+
+  scale_size_continuous(name='Number of\nassemblages\nper locality', breaks=c(1,10,100,1000), labels=c(1,10,100,1000), limits = c(0,1000), range = c(.1, 18))+
   #scale_fill_continuous(name='Number of assemblages', low='#A70D1F', high='#A70D1F50', limits = c(0,1000))+
   #scale_color_continuous(name='Number of assemblages', low='#FFFFFF10', high='#FFFFFF99', limits = c(0,1000))+
   annotation_scale(location = 'bl', width_hint = 0.2) +
@@ -76,7 +76,14 @@ plt1<- ggplot()+
   theme(panel.grid.major = element_line(color = '#DDDDDD', linetype = 'solid', size = 0.2),
         panel.background = element_rect(color = 'black', fill='#5D9CA5'),
         panel.border = element_rect(colour = "black", fill=NA, size=1),
-        legend.position='right',
+        #legend.position='right',
+        legend.justification = c(1, 0), legend.position = c(0.99, 0.01),
+        legend.title = element_text(colour="black", size=8),
+        legend.text = element_text(colour="black", size=8),
+        legend.background = element_rect(fill='#FFFFFF',
+                                         size=.5, linetype="solid", 
+                                         colour ="black"),
+        legend.key=element_blank(),
         plot.margin = margin(l=24, t=6, b=6, r=6, 'pt'))
 plt1
 
@@ -102,8 +109,16 @@ plt2 <- ggplot()+
   labs(x='Count', y='')+
   geom_text(data=table3, stat='identity', aes(y=country_continent.continent, x=value, group=variable, label=value), position = position_dodge2(width = .9, reverse=T), hjust=-.1, size=2.8)+
   theme_pub()+
-  theme(legend.position='bottom',
-        panel.grid.major.y = element_blank(),
+  theme(#legend.position='bottom',
+        legend.justification = c(1, 0), legend.position = c(0.98, 0.02),
+        legend.title = element_text(colour="black", size=8),
+        legend.text = element_text(colour="black", size=8),
+        legend.background = element_rect(fill='#FFFFFF',
+                                         size=.5, linetype="solid", 
+                                         colour ="white"),
+        legend.key=element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
         plot.margin = margin(l=6, t=6, b=6, r=6, 'pt'))
 plt2
 
@@ -116,14 +131,13 @@ ggsave('fig_coverage/fig_coverage_B.png', width=180, height=180, units='mm', dpi
 table <- table %>% mutate(age_mean=(query_age_max+query_age_min)/2, age_range=(query_age_max-query_age_min))
 
 plt3 <- ggplot()+
-  #annotate("rect", xmin = 20000, xmax = 3000000, ymin = 0, ymax = Inf,  fill = "#FFD28A")+
   geom_rect(aes(xmin = 20000, xmax = 3000000, ymin = 0, ymax = Inf, fill='scope'))+
-  geom_jitter(data=table, aes(x=age_mean, y=age_range, color='date'), alpha=.1, shape=20)+
+  geom_jitter(data=table, aes(x=age_mean, y=age_range, color='date'), alpha=.1, shape=20, size=1)+
   scale_x_log10(breaks = c(1000, 10000, 100000, 1000000, 6000000),
                 labels = c(1, 10, 100, 1000, 6000))+
   scale_y_log10(breaks = c(1000, 10000, 100000, 1000000, 4000000),
                 labels = c(1, 10, 100, 1000, 4000))+
-  #annotation_logticks()+
+  annotation_logticks()+
   labs(x='Age (ka BP)', y='Age range (ka)')+
   scale_fill_manual(name=NULL,
                     values = '#FFD28A',
@@ -134,7 +148,17 @@ plt3 <- ggplot()+
                     labels = c('Date'),
                     guide = guide_legend(override.aes = list(alpha = 1)))+
   theme_pub()+
-  theme(legend.position='bottom',
+  theme(#legend.position='bottom',
+        legend.justification = c(0, 1), legend.position = c(0.02, 0.98),
+        legend.title = element_text(colour="black", size=8),
+        legend.text = element_text(colour="black", size=8),
+        legend.background = element_rect(fill='#FFFFFF00',
+                                         size=.5, linetype="solid", 
+                                         colour = NA),
+        legend.key=element_blank(),
+        legend.spacing.y = unit(1, 'pt'),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(),
         plot.margin = margin(l=6, t=6, b=6, r=6, 'pt'))
 plt3
 
@@ -149,7 +173,7 @@ bottom_row
 
 top_row <- plot_grid(plt1, labels=c('A'), label_size=10)
 
-full_plot <- plot_grid(top_row, bottom_row, nrow=2, rel_heights = c(2,1.5), align='h', axis='l')
+full_plot <- plot_grid(top_row, bottom_row, nrow=2, rel_heights = c(2,.8), align='h', axis='l')
 full_plot
 
 ggsave('fig_coverage/fig_coverage.png', width=180, height=190, units='mm', dpi=300, bg='white')
