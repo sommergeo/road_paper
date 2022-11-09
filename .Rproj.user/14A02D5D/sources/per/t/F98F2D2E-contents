@@ -13,6 +13,8 @@ x <- list(
                col_names = FALSE, locale = locale(encoding = "ASCII"))$X1
 )
 
+
+
 # Venn diagram ----
 ggVennDiagram(x, set_color = 'black', label='both', set_size=3, label_size = 2, edge_size = 0.5,
               category.names = c('Cultural remains', 'Human remains', 'Plant remains', 'Faunal remains'))+

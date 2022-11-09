@@ -2,6 +2,7 @@ library(tidyverse)
 library(readr)
 library(sf)
 library(ggspatial)
+library(cowplot)
 
 # Import data
 table <- read_delim('fig_coverage/road_coverage.csv', 
@@ -75,7 +76,8 @@ plt1<- ggplot()+
   theme(panel.grid.major = element_line(color = '#DDDDDD', linetype = 'solid', size = 0.2),
         panel.background = element_rect(color = 'black', fill='#5D9CA5'),
         panel.border = element_rect(colour = "black", fill=NA, size=1),
-        legend.position='bottom')
+        legend.position='right',
+        plot.margin = margin(l=24, t=6, b=6, r=6, 'pt'))
 plt1
 
 ggsave('fig_coverage/fig_coverage_A.png', width=180, height=180, units='mm', dpi=300)
@@ -93,12 +95,20 @@ table3 <- table %>%
   mutate(country_continent.continent = factor(country_continent.continent, levels = c('Asia', 'Africa', 'Europe')))
   
   
-ggplot()+
-  geom_bar(data=table3, stat = 'identity', aes(y=country_continent.continent, x=value, fill=variable),position=position_dodge2(reverse=T))+
-  scale_fill_manual(values=c('#F07241', '#383846'), )+
-  theme_pub()
+plt2 <- ggplot()+
+  geom_bar(data=table3, stat = 'identity', aes(y=country_continent.continent, x=value, fill=variable), position=position_dodge2(reverse=T))+
+  scale_fill_manual(values=c('#F07241', '#383846'), name='Number of', labels=c('assemblages','localities'))+
+  scale_x_continuous(limits=c(0,12000), breaks = seq(0,12000,2000))+
+  labs(x='Count', y='')+
+  geom_text(data=table3, stat='identity', aes(y=country_continent.continent, x=value, group=variable, label=value), position = position_dodge2(width = .9, reverse=T), hjust=-.1, size=2.8)+
+  theme_pub()+
+  theme(legend.position='bottom',
+        panel.grid.major.y = element_blank(),
+        plot.margin = margin(l=6, t=6, b=6, r=6, 'pt'))
+plt2
 
 ggsave('fig_coverage/fig_coverage_B.png', width=180, height=180, units='mm', dpi=300)
+
 
 
 
@@ -106,20 +116,46 @@ ggsave('fig_coverage/fig_coverage_B.png', width=180, height=180, units='mm', dpi
 table <- table %>% mutate(age_mean=(query_age_max+query_age_min)/2, age_range=(query_age_max-query_age_min))
 
 plt3 <- ggplot()+
-  annotate("rect", xmin = 20000, xmax = 3000000, ymin = 0, ymax = Inf,  fill = "#FFD28A")+
-  geom_jitter(data=table, aes(x=age_mean, y=age_range), alpha=.1)+
-  scale_x_continuous(breaks = c(1000, 10000, 100000, 1000000, 6000000),
+  #annotate("rect", xmin = 20000, xmax = 3000000, ymin = 0, ymax = Inf,  fill = "#FFD28A")+
+  geom_rect(aes(xmin = 20000, xmax = 3000000, ymin = 0, ymax = Inf, fill='scope'))+
+  geom_jitter(data=table, aes(x=age_mean, y=age_range, color='date'), alpha=.1, shape=20)+
+  scale_x_log10(breaks = c(1000, 10000, 100000, 1000000, 6000000),
                 labels = c(1, 10, 100, 1000, 6000))+
   scale_y_log10(breaks = c(1000, 10000, 100000, 1000000, 4000000),
                 labels = c(1, 10, 100, 1000, 4000))+
-  annotation_logticks()+
+  #annotation_logticks()+
   labs(x='Age (ka BP)', y='Age range (ka)')+
-  theme_pub()
-plt3julia
+  scale_fill_manual(name=NULL,
+                    values = '#FFD28A',
+                    labels = c('Temporal scope'),
+                    guide = guide_legend(override.aes = list(alpha = 1)))+
+  scale_color_manual(name=NULL,
+                    values = '#000000',
+                    labels = c('Date'),
+                    guide = guide_legend(override.aes = list(alpha = 1)))+
+  theme_pub()+
+  theme(legend.position='bottom',
+        plot.margin = margin(l=6, t=6, b=6, r=6, 'pt'))
+plt3
 
 ggsave('fig_coverage/fig_coverage_C.png', width=180, height=180, units='mm', dpi=300)
+
+
+
+
+# Combine plots
+bottom_row <- plot_grid(plt2, plt3, labels = c('B', 'C'), align='hv', axis='tblr', label_size = 10, ncol=2)
+bottom_row
+
+top_row <- plot_grid(plt1, labels=c('A'), label_size=10)
+
+full_plot <- plot_grid(top_row, bottom_row, nrow=2, rel_heights = c(2,1.5), align='h', axis='l')
+full_plot
+
+ggsave('fig_coverage/fig_coverage.png', width=180, height=190, units='mm', dpi=300, bg='white')
 
 
 # Notes ----
 #https://stackoverflow.com/questions/68505391/stop-maps-from-wrapping-when-reprojected-in-r
 #https://r-spatial.org/r/2018/10/25/ggplot2-sf.html
+#https://stackoverflow.com/questions/66879376/align-vertical-3-plots-in-2-rows-in-cowplot-package-in-r
