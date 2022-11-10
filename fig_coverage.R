@@ -13,16 +13,26 @@ table[is.na(table$locality.idlocality),] # Show localities without locality name
 
 table <- table %>% drop_na(c(locality.x, locality.y))
 
+#theme_pub <-  function(){
+#  list(theme_classic(),
+#       theme(text=element_text(size=8), #change font size of all text
+#             axis.text=element_text(size=8), #change font size of axis text
+#             axis.title=element_text(size=8), #change font size of axis titles
+#             plot.title=element_text(size=8), #change font size of plot title
+#             legend.text=element_text(size=8), #change font size of legend text
+#             legend.title=element_text(size=8),
+#             panel.grid.major = element_line(color = '#DDDDDD', linetype = 'solid', size = 0.2)))
+#}
+
 theme_pub <-  function(){
-  list(theme_bw(),
+  list(theme_classic(),
        theme(text=element_text(size=8), #change font size of all text
              axis.text=element_text(size=8), #change font size of axis text
              axis.title=element_text(size=8), #change font size of axis titles
              plot.title=element_text(size=8), #change font size of plot title
              legend.text=element_text(size=8), #change font size of legend text
-             legend.title=element_text(size=8),
-             panel.border = element_rect(colour = "black", fill=NA, size=1),
-             panel.grid.major = element_line(color = '#DDDDDD', linetype = 'solid', size = 0.2)))
+             legend.title=element_text(size=8)
+       ))
 }
 
 # World map ----
