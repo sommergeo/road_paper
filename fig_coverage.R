@@ -94,7 +94,7 @@ plt1<- ggplot()+
                                          size=.5, linetype="solid", 
                                          colour ="black"),
         legend.key=element_blank(),
-        plot.margin = margin(l=24, t=6, b=6, r=6, 'pt'))
+        plot.margin = margin(l=24, t=6, b=6, r=12, 'pt'))
 plt1
 
 ggsave('fig_coverage/fig_coverage_A.png', width=180, height=180, units='mm', dpi=300)
@@ -114,8 +114,8 @@ table3 <- table %>%
   
 plt2 <- ggplot()+
   geom_bar(data=table3, stat = 'identity', aes(y=country_continent.continent, x=value, fill=variable), position=position_dodge2(reverse=T))+
-  scale_fill_manual(values=c('#F07241', '#383846'), name='Number of', labels=c('assemblages','localities'))+
-  scale_x_continuous(limits=c(0,12000), breaks = seq(0,12000,2000))+
+  scale_fill_manual(values=c('#F07241', '#A70D1F'), name='Number of', labels=c('assemblages','localities'))+
+  scale_x_continuous(limits=c(0,12000), breaks = seq(0,12000,2000),expand = c(0,250))+
   labs(x='Count', y='')+
   geom_text(data=table3, stat='identity', aes(y=country_continent.continent, x=value, group=variable, label=value), position = position_dodge2(width = .9, reverse=T), hjust=-.1, size=2.8)+
   theme_pub()+
@@ -129,7 +129,7 @@ plt2 <- ggplot()+
         legend.key=element_blank(),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
-        plot.margin = margin(l=6, t=6, b=6, r=6, 'pt'))
+        plot.margin = margin(l=6, t=6, b=6, r=12, 'pt'))
 plt2
 
 ggsave('fig_coverage/fig_coverage_B.png', width=180, height=180, units='mm', dpi=300)
@@ -143,10 +143,10 @@ table <- table %>% mutate(age_mean=(query_age_max+query_age_min)/2, age_range=(q
 plt3 <- ggplot()+
   geom_rect(aes(xmin = 20000, xmax = 3000000, ymin = 0, ymax = Inf, fill='scope'))+
   geom_jitter(data=table, aes(x=age_mean, y=age_range, color='date'), alpha=.1, shape=20, size=1)+
-  scale_x_log10(breaks = c(1000, 10000, 100000, 1000000, 6000000),
-                labels = c(1, 10, 100, 1000, 6000))+
-  scale_y_log10(breaks = c(1000, 10000, 100000, 1000000, 4000000),
-                labels = c(1, 10, 100, 1000, 4000))+
+  scale_x_log10(breaks = c(1000, 10000, 100000, 1000000, 6000000), limits=c(100,6000000),
+                labels = c(1, 10, 100, 1000, 6000), expand = c(0,0))+
+  scale_y_log10(breaks = c(1000, 10000, 100000, 1000000, 4000000), limits=c(100,6000000),
+                labels = c(1, 10, 100, 1000, 4000), expand = c(0,0))+
   annotation_logticks()+
   labs(x='Age (ka BP)', y='Age range (ka)')+
   scale_fill_manual(name=NULL,
@@ -169,7 +169,7 @@ plt3 <- ggplot()+
         legend.spacing.y = unit(1, 'pt'),
         panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),
-        plot.margin = margin(l=6, t=6, b=6, r=6, 'pt'))
+        plot.margin = margin(l=6, t=6, b=6, r=12, 'pt'))
 plt3
 
 ggsave('fig_coverage/fig_coverage_C.png', width=180, height=180, units='mm', dpi=300)
