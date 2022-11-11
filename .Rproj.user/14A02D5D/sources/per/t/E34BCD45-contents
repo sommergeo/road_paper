@@ -1,5 +1,6 @@
 library(tidyverse)
 library(readr)
+library(gglorenz)
 
 
 # Import data
@@ -33,20 +34,15 @@ ggsave('fig_sources/fig_sources.png', width=180, height=60, units='mm', dpi=300,
 
 # Most cited publications
 most_cited <- road_sources %>%
-  count(publication_view.source_title, sort=T)
+  count(publication_view.source_title, sort=T) %>% 
+  mutate(perc=n/sum(n), cumsum = cumsum(n), cumsum_perc=cumsum/sum(n), rank=row_number(), rank_perc=rank/length(rank))
 
 
 
 xlsx::write.xlsx(most_cited, 'fig_sources/most_cited.xlsx', sheetName = "Sheet1", 
            col.names = TRUE, row.names = TRUE, append = FALSE)
 
-lorenz_sections <- data.frame(
-  t1 <- filter(most_cited, n==1) %>% summarise(sources=n(), titles=sum(n)) %>% mutate(sources_pc=sources/count(most_cited), titles_pc=titles/sum(most_cited$n)),
-  t10 <- filter(most_cited, n>1 & n<=10) %>% summarise(sources=n(), titles=sum(n)) %>% mutate(sources_pc=sources/count(most_cited), titles_pc=titles/sum(most_cited$n)),
-  t50 <- filter(most_cited, n>10 & n<=50) %>% summarise(sources=n(), titles=sum(n)) %>% mutate(sources_pc=sources/count(most_cited), titles_pc=titles/sum(most_cited$n))
-)
 
-library(gglorenz)
 ggplot(data=most_cited, aes(n), color='#4D4E6B')+
   geom_abline(linetype = "dashed", color='black')+
   coord_fixed() +
@@ -54,10 +50,10 @@ ggplot(data=most_cited, aes(n), color='#4D4E6B')+
   scale_y_continuous(expand = c(0,0),labels = scales::percent_format(accuracy = 1))+
   stat_lorenz(desc=F)+
   geom_curve(
-    aes(x = 0.626, y = 0.305, xend = 0.726, yend = 0.205), curvature=-0.5,
+    aes(x=0.9-rank_perc[375], y=0.9-cumsum_perc[375], xend=1-rank_perc[375], yend=1-cumsum_perc[375]), curvature=-0.5,
     arrow = arrow(length = unit(4, 'pt'))
   )+
-  geom_text(aes(x = 0.626, y = 0.305, label = "Sources\nwith 1 title"), 
+  geom_text(aes(x=0.9-rank_perc[375],  y=0.9-cumsum_perc[375], label = "Sources\nwith 1 title"), 
             hjust = 1.1, 
             vjust = 0.5, 
             size = 2.8)+

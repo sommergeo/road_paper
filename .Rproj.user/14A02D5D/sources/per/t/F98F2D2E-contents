@@ -21,13 +21,9 @@ ggVennDiagram(x, set_color = 'black', label='both', set_size=3, label_size = 2, 
   scale_x_continuous(expand = expansion(mult = .2))+
   scale_y_continuous(expand = expansion(mult = .2))+
   scale_fill_gradient(name='Number of\nLocalities',
-                      low="#deebf7", high = "#3182bd",
+                      low="#d5dcd8", high="#2e5440",
                       trans='log', breaks=c(1, 10,100,1000), labels=c(1,10,100,1000),
                       limits=c(1,1000))+
-  #scale_fill_gradient(name='Number of\nLocalities',
-  #                    low="#deebf7", high = "#3182bd",
-  #                    breaks=c(0,200,400,600,800), labels=c(0,200,400,600,800),
-  #                    limits=c(0,800))+
   scale_color_manual(values=c('black','black','black','black'))+
   theme(text=element_text(size=8), #change font size of all text
         plot.title=element_text(size=8), #change font size of plot title
