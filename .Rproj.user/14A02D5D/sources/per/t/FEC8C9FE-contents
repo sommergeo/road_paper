@@ -3,6 +3,7 @@ library(readr)
 library(scico)
 library(sf)
 library(ggspatial)
+library(cowplot)
 
 
 
@@ -66,29 +67,35 @@ world <- world %>% st_difference(polygon)
 ggplot()+
   geom_sf(data=world, aes(fill=year))
 
+color_gradient <- c('#ffd28a','#fdc287','#f9b387','#f2a588','#e8988a','#dc8c8b','#cd828d','#bd798d','#ab718c','#986a89','#856384','#715c7d','#5f5575','#4d4e6b') #https://colordesigner.io/gradient-generator/?mode=lch#fafa6e-2A4858
+
+
 plt1<- ggplot()+
-  geom_sf(data=world, aes(fill=year, color=year))+
+  geom_sf(data=world, aes(fill=factor(year), color=factor(year)), lwd=.01)+
   coord_sf(crs = '+proj=natearth2 +lon_0=60 +x_0=0 +y_0=0 +R=6371008.7714 +units=m +no_defs +type=crs',xlim=c(-7500000,8600000), ylim=c(-4500000,8000000), expand=T)+
   scale_x_continuous(breaks = seq(-180, 180, by = 30))+
   scale_y_continuous(breaks = seq(-90, 90, by = 30))+
-  scale_fill_scico(
-    palette = 'batlow', begin = 0.1, limits = c(2009, 2023),
-    name = 'Start', breaks = seq(2009,2022),
-    guide = guide_colorsteps(barwidth = 20, barheight = .5,
-                             title.position = "top", title.hjust = 0.5, show.limits = TRUE)
-  ) +
-  scale_color_scico(
-    palette = 'batlow', begin = 0.1, limits = c(2009, 2023),
-    name = 'Start', breaks = seq(2009,2022),
-    guide = guide_colorsteps(barwidth = 20, barheight = .5,
-                             title.position = "top", title.hjust = 0.5, show.limits = TRUE)
-  ) +
+  scale_color_manual(values=rev(color_gradient), breaks=seq(2009,2022))+
+  scale_fill_manual(values=rev(color_gradient), breaks=seq(2009,2022))+
+  #scale_fill_scico(
+  #  palette = 'batlow', begin = 0.1, limits = c(2009, 2022),
+    #name = 'Start', breaks = seq(2009,2022),
+    #guide = guide_colorsteps(barwidth = 20, barheight = .5,
+    #                         title.position = "top", title.hjust = 0.5, show.limits = TRUE)
+  #) +
+  #scale_color_scico(
+  #  palette = 'batlow', begin = 0.1, limits = c(2009, 2022),
+    #name = 'Start', breaks = seq(2009,2022),
+    #guide = guide_colorsteps(barwidth = 20, barheight = .5,
+    #                         title.position = "top", title.hjust = 0.5, show.limits = TRUE)
+  #) +
   annotation_scale(location = 'bl', width_hint = 0.2) +
   theme_pub()+
   theme(panel.grid.major = element_line(color = '#DDDDDD', linetype = 'solid', size = 0.2),
         #panel.background = element_rect(color = 'black', fill='#5D9CA5'),
         panel.border = element_rect(colour = "black", fill=NA, size=1),
-        legend.position='bottom',
+        #legend.position='bottom',
+        legend.position='None',
         #legend.justification = c(1, 0), legend.position = c(0.99, 0.01),
         #legend.title = element_text(colour="black", size=8),
         #legend.text = element_text(colour="black", size=8),
@@ -101,7 +108,67 @@ plt1
 
 ggsave('fig_schedule/fig_schedule_A.png', width=180, height=180, units='mm', dpi=300)
 
+
+# Timeline ----
+year_breaks <- seq(as.Date("2009-01-01"), as.Date("2023-01-01"), "years")
+year_labels <- seq(as.Date("2008-01-01"), as.Date("2023-01-01"), "2 years")
+quarter_breaks <- seq(as.Date("2009-01-01"), as.Date("2023-01-01"), "quarters")
+
 plt2 <- ggplot()+
-  geom_density(data=road_schedule, aes(x=locality.created))
+  geom_histogram(data=road_schedule, aes(x=locality.created, fill=cut(locality.created, breaks=year_breaks)), breaks=quarter_breaks)+
+  #scale_fill_scico_d(palette = 'batlow', begin = 0.1) +
+  scale_fill_manual(values=rev(color_gradient), breaks=year_breaks)+
+  scale_x_date(breaks=year_labels, date_labels = "%Y", limits = as.Date(c('2008-01-01','2022-12-31')), expand = c(0,0))+
+  scale_y_continuous(expand = c(0,0))+
+  labs(x='Year', y='Number of localities created')+
+  theme_pub()+
+  theme(panel.grid.major.y = element_line(color = '#DDDDDD', linetype = 'solid', size = 0.2),
+        legend.position='None',
+        plot.margin = margin(l=12, t=6, b=6, r=12, 'pt'))
+
 
 plt2
+
+# Combine plots ----
+ggsave('fig_schedule/fig_schedule_B.png', width=180, height=180, units='mm', dpi=300)
+
+
+plt <- plot_grid(plt1, plt2, labels = c('A', 'B'), align='h', axis='tb', label_size = 10, ncol=2, rel_widths = c(1,0.74))
+plt
+
+ggsave('fig_schedule/fig_schedule.png', width=180, height=80, units='mm', dpi=300, bg='black')
+
+# Old stuff ----
+plt1<- ggplot()+
+  geom_sf(data=world, aes(fill=year, color=year), lwd=.01)+
+  coord_sf(crs = '+proj=natearth2 +lon_0=60 +x_0=0 +y_0=0 +R=6371008.7714 +units=m +no_defs +type=crs',xlim=c(-7500000,8600000), ylim=c(-4500000,8000000), expand=T)+
+  scale_x_continuous(breaks = seq(-180, 180, by = 30))+
+  scale_y_continuous(breaks = seq(-90, 90, by = 30))+
+  scale_fill_scico(
+    palette = 'batlow', begin = 0.1, limits = c(2009, 2022),
+  name = 'Start', breaks = seq(2009,2022),
+  guide = guide_colorsteps(barwidth = 20, barheight = .5,
+                           title.position = "top", title.hjust = 0.5, show.limits = TRUE)
+  ) +
+  scale_color_scico(
+    palette = 'batlow', begin = 0.1, limits = c(2009, 2022),
+  name = 'Start', breaks = seq(2009,2022),
+  guide = guide_colorsteps(barwidth = 20, barheight = .5,
+                           title.position = "top", title.hjust = 0.5, show.limits = TRUE)
+  ) +
+annotation_scale(location = 'bl', width_hint = 0.2) +
+  theme_pub()+
+  theme(panel.grid.major = element_line(color = '#DDDDDD', linetype = 'solid', size = 0.2),
+        #panel.background = element_rect(color = 'black', fill='#5D9CA5'),
+        panel.border = element_rect(colour = "black", fill=NA, size=1),
+        legend.position='bottom',
+        
+        #legend.justification = c(1, 0), legend.position = c(0.99, 0.01),
+        #legend.title = element_text(colour="black", size=8),
+        #legend.text = element_text(colour="black", size=8),
+        #legend.background = element_rect(fill='#FFFFFF',
+        #                                 size=.5, linetype="solid", 
+        #                                 colour ="black"),
+        #legend.key=element_blank(),
+        plot.margin = margin(l=12, t=6, b=6, r=12, 'pt'))
+plt1
