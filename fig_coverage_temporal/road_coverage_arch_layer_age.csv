@@ -1,5 +1,5 @@
 Table archaeological_layer_age
-archlayer_idlocality;archlayer_name;laboratory_idlaboratory;analysis_number;age;positive_standard_deviation;negative_standard_deviation;dating_method;material_dated;date_of_analysis;comments;owner;created;mod_history
+archlayer_idlocality;archlayer_name;laboratory_idlaboratory;analysis_number;age;positive_standard_deviation;negative_standard_deviation;dating_method;material_dated;date_of_analysis;comments;owner;created;mod_history;
 Abri I am Schulerloch;AH m;H;H-AS;51400;4500;4500;TL (thermoluminescence) dating;lithic burnt;1998;after Böhner 2008, tab. 31; Institute for archaeometry, Heidelberg; Sample AS, Inv.-Nr. 83H6-S2;Julia Lutz;01.10.2020;Julia Lutz  01.10.20;
 Abri Pié Lombard;Middle Paleolithic;Gif;;73800;9600;9600;TL (thermoluminescence) dating;lithic burnt;1985;dating from mid 1980s. sample no.: PL 3 from subunit e.;Klaus Herkert;16.03.2021;Klaus Herkert  16.03.21;
 Abri Pié Lombard;Middle Paleolithic;Gif;;67000;8100;8100;TL (thermoluminescence) dating;lithic burnt;1985;dating from mid 1980s. sample no.: PL 4 from subunit e.;Klaus Herkert;16.03.2021;Klaus Herkert  16.03.21;

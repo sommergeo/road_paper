@@ -1,4 +1,4 @@
-assemblage.name;assemblage.category;country_continent.continent;geological_stratigraphy.correlation;geological_stratigraphy.age_min;geological_stratigraphy.age_max;locality.idlocality;locality.x;locality.y
+assemblage.name;assemblage.category;country_continent.continent;geological_stratigraphy.correlation;geological_stratigraphy.age_min;geological_stratigraphy.age_max;locality.idlocality;locality.x;locality.y;
 Aar Layer 1 Archaeological Assemblage;miscellaneous finds, raw material, symbolic artifacts, technology, typology;Africa;archaeological (cultural) stratigraphy, geology;30000;300000;Aar 1;16.488989;-26.772622;
 Aar Layer 4-2 Archaeological Assemblage;miscellaneous finds, raw material, symbolic artifacts, technology, typology;Africa;archaeological (cultural) stratigraphy;25000;40000;Aar 1;16.488989;-26.772622;
 Aar Layer 4-2 Fauna;paleofauna;Africa;archaeological (cultural) stratigraphy;25000;40000;Aar 1;16.488989;-26.772622;

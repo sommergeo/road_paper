@@ -1,5 +1,5 @@
 Table geological_layer_age
-geolayer_idlocality;geolayer_name;laboratory_idlaboratory;analysis_number;age;positive_standard_deviation;negative_standard_deviation;dating_method;material_dated;date_of_analysis;comments;owner;created;mod_history
+geolayer_idlocality;geolayer_name;laboratory_idlaboratory;analysis_number;age;positive_standard_deviation;negative_standard_deviation;dating_method;material_dated;date_of_analysis;comments;owner;created;mod_history;
 Aar 2;Layer 7;Pta;Pta-1751;6940;80;80;14C (radiocarbon) dating;ostrich eggshell;;published in Vogel and Visser 1981;andrew;27.11.2014;maria  27.11.14; andrew  07.06.19; andrew  12.03.20;
 Abri Caminade;Est Unit D2;GifA;GifA-97187;34140;990;990;14C (radiocarbon) dating;bone;2001;;andrew;19.08.2018;Matthias Göden  19.08.18;
 Abri Caminade;Est Unit F;GifA;GifA-97186;35400;1100;1100;14C (radiocarbon) dating;bone;2001;;andrew;19.08.2018;Matthias Göden  19.08.18;

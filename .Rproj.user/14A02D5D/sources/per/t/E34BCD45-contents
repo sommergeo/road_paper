@@ -1,6 +1,7 @@
 library(tidyverse)
 library(readr)
 library(gglorenz)
+library(cowplot)
 
 
 # Import data
@@ -20,17 +21,7 @@ theme_pub <-  function(){
              ))
 }
 
-# Plot timeline
-ggplot()+
-  geom_histogram(data=road_sources, aes(x=publication_view.publication_year), binwidth = 1, fill='#4D4E6B')+
-  scale_x_continuous(breaks = seq(0, 2030, by = 10), limits=c(1865,2022), expand = c(0,0))+
-  scale_y_continuous(breaks = c(0, 10, 50, 100, 150, 200), expand = c(0,0))+
-  labs(x='Year of publication', y='Count')+
-  theme_pub()+
-  theme(panel.grid.major.y = element_line(),
-        plot.margin = margin(l=6, t=6, b=6, r=6, 'pt'))
-  
-ggsave('fig_sources/fig_sources.png', width=180, height=60, units='mm', dpi=300, bg='white')
+
 
 # Most cited publications
 most_cited <- road_sources %>%
@@ -39,42 +30,60 @@ most_cited <- road_sources %>%
 
 
 
+
 xlsx::write.xlsx(most_cited, 'fig_sources/most_cited.xlsx', sheetName = "Sheet1", 
-           col.names = TRUE, row.names = TRUE, append = FALSE)
+                 col.names = TRUE, row.names = TRUE, append = FALSE)
+
+# Plot timeline
+plt1 <- ggplot()+
+  geom_histogram(data=road_sources, aes(x=publication_view.publication_year), binwidth = 1, fill='#4D4E6B')+
+  scale_x_continuous(breaks = seq(0, 2030, by = 20), limits=c(1865,2022), expand = c(0,0))+
+  scale_y_continuous(breaks = c(0, 10, 50, 100, 150, 200), expand = c(0,0))+
+  labs(x='Year of publication', y='Count')+
+  theme_pub()+
+  theme(panel.grid.major.y = element_line(),
+        plot.margin = margin(l=6, t=6, b=6, r=6, 'pt'))
+plt1
+  
+ggsave('fig_sources/fig_sources_A.png', width=180, height=90, units='mm', dpi=300, bg='white')
 
 
-ggplot(data=most_cited, aes(n), color='#4D4E6B')+
+
+# Plot Lorenz curve
+plt2 <- ggplot(data=most_cited, aes(n), color='#4D4E6B')+
   geom_abline(linetype = "dashed", color='black')+
   coord_fixed() +
   scale_x_continuous(expand = c(0,0), labels = scales::percent_format(accuracy = 1))+
   scale_y_continuous(expand = c(0,0),labels = scales::percent_format(accuracy = 1))+
-  stat_lorenz(desc=F)+
+  stat_lorenz(desc=F, color='#4D4E6B')+
   geom_curve(
-    aes(x=0.9-rank_perc[375], y=0.9-cumsum_perc[375], xend=1-rank_perc[375], yend=1-cumsum_perc[375]), curvature=-0.5,
+    aes(x=0.9-rank_perc[375], y=1.1-cumsum_perc[375], xend=1-rank_perc[375], yend=1-cumsum_perc[375]), curvature=-0.5,
     arrow = arrow(length = unit(4, 'pt'))
   )+
-  geom_text(aes(x=0.9-rank_perc[375],  y=0.9-cumsum_perc[375], label = "Sources\nwith 1 title"), 
+  geom_label(aes(x=0.9-rank_perc[375],  y=1.1-cumsum_perc[375], label = '?Einzeltitel? add up to\n72% (n=988) of\nthe sources'), 
             hjust = 1.1, 
             vjust = 0.5, 
-            size = 2.8)+
-  #geom_segment(aes(x = 0.726, y = 0.265, xend = 0.726, yend = 0.205),
-  #             arrow = arrow(length = unit(4, "pt")))+
-  geom_segment(aes(x = 0.855, y = 0.450, xend = 0.955, yend = 0.450),
+            size = 2.8, fill='white', label.size=NA)+
+  geom_segment(aes(x=0.9-rank_perc[10], y=1-cumsum_perc[10], xend=1-rank_perc[10], yend=1-cumsum_perc[10]),
                arrow = arrow(length = unit(4, "pt")))+
-  geom_text(aes(x = 0.855, y = 0.450, label = "Sources\nwith 10 titles"), 
-            hjust = 1.1, 
+  geom_label(aes(x=0.9-rank_perc[10],y=1-cumsum_perc[10], label = "20 journals account for\n39% (n=1897) of titles"), 
+            hjust = 1, 
             vjust = 0.5, 
-            size = 2.8)+
-  geom_segment(aes(x = 0.890, y = 0.667, xend = 0.990, yend = 0.667),
-               arrow = arrow(length = unit(4, "pt")))+
-  geom_text(aes(x = 0.890, y = 0.667, label = "Sources\nwith 50 titles"), 
-            hjust = 1.1, 
-            vjust = 0.5, 
-            size = 2.8)+
+            size = 2.8, fill='white', label.size=NA)+
   labs(x = "Cumulative percentage of sources",
        y = "Cumulative percentage of titles")+
   theme_pub()+
   theme(plot.margin = margin(l=6, t=6, b=6, r=6, 'pt'),
         panel.border = element_rect(colour = "black", fill=NA, size=1))
-  
-ggsave('fig_sources/fig_sources_lorenz.png', width=90, height=90, units='mm', dpi=300, bg='white')
+plt2
+
+ggsave('fig_sources/fig_sources_B.png', width=90, height=90, units='mm', dpi=300, bg='white')
+
+
+
+
+# Combine plots
+plt <- plot_grid(plt1, plt2, labels = c('A', 'B'), align='h', axis='tb', label_size = 10, ncol=2, rel_widths = c(100,80))
+plt
+
+ggsave('fig_sources/fig_sources.png', width=180, height=70, units='mm', dpi=300, bg='white')

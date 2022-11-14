@@ -75,8 +75,8 @@ plt1<- ggplot()+
   coord_sf(crs = '+proj=natearth2 +lon_0=60 +x_0=0 +y_0=0 +R=6371008.7714 +units=m +no_defs +type=crs',xlim=c(-7500000,8600000), ylim=c(-4500000,8000000), expand=T)+
   scale_x_continuous(breaks = seq(-180, 180, by = 30))+
   scale_y_continuous(breaks = seq(-90, 90, by = 30))+
-  scale_color_manual(values=rev(color_gradient), breaks=seq(2009,2022))+
-  scale_fill_manual(values=rev(color_gradient), breaks=seq(2009,2022))+
+  scale_color_manual(values=rev(color_gradient), na.value = '#DDDDDD', breaks=seq(2009,2022))+
+  scale_fill_manual(values=rev(color_gradient), na.value = '#DDDDDD', breaks=seq(2009,2022))+
   #scale_fill_scico(
   #  palette = 'batlow', begin = 0.1, limits = c(2009, 2022),
     #name = 'Start', breaks = seq(2009,2022),
@@ -126,13 +126,11 @@ plt2 <- ggplot()+
         legend.position='None',
         plot.margin = margin(l=12, t=6, b=6, r=12, 'pt'))
 
-
 plt2
 
-# Combine plots ----
 ggsave('fig_schedule/fig_schedule_B.png', width=180, height=180, units='mm', dpi=300)
 
-
+# Combine plots ----
 plt <- plot_grid(plt1, plt2, labels = c('A', 'B'), align='h', axis='tb', label_size = 10, ncol=2, rel_widths = c(1,0.74))
 plt
 

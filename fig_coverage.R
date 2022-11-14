@@ -97,7 +97,7 @@ plt1<- ggplot()+
         plot.margin = margin(l=24, t=6, b=6, r=12, 'pt'))
 plt1
 
-ggsave('fig_coverage/fig_coverage_A.png', width=180, height=180, units='mm', dpi=300)
+ggsave('fig_coverage/fig_coverage_A.png', width=180, height=150, units='mm', dpi=300)
 
 
 

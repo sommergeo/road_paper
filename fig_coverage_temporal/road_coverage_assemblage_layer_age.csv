@@ -1,5 +1,5 @@
 Table assemblage_age
-assemblage_idlocality;assemblage_idassemblage;assemblage_name;laboratory_idlaboratory;idassemblage_age;analysis_number;age;positive_standard_deviation;negative_standard_deviation;dating_method;material_dated;date_of_analysis;comments;owner;created;mod_history
+assemblage_idlocality;assemblage_idassemblage;assemblage_name;laboratory_idlaboratory;idassemblage_age;analysis_number;age;positive_standard_deviation;negative_standard_deviation;dating_method;material_dated;date_of_analysis;comments;owner;created;mod_history;
 Afontova Gora II;6;AG II human remains 3;UCIAMS;1508;UCIAMS-79661;13810;35;35;14C (radiocarbon) dating;unknown;0;;Lisa Schiersch;08.07.2022;Lisa Schiersch  08.07.22;
 Amur River Basin AR19K;1;Human remain 1;BA;1446;BA-152200;16090;45;45;14C (radiocarbon) dating;bone;2021;17605-17301 calBCE;andrew;25.02.2022;andrew  25.02.22;
 Amur River Basin AR33K;1;Human remain 1;BA;1447;BA-10197;29060;170;170;14C (radiocarbon) dating;bone;2021;32159-31169 calBCE;andrew;25.02.2022;andrew  25.02.22;

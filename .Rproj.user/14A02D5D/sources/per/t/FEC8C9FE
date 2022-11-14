@@ -3,7 +3,7 @@
     "path": "C:/data/git/road_paper/fig_schedule.R",
     "project_path": "fig_schedule.R",
     "type": "r_source",
-    "hash": "2981904162",
+    "hash": "1398496088",
     "contents": "",
     "dirty": false,
     "created": 1668091573262.0,
@@ -13,15 +13,15 @@
         "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "132,33",
-        "scrollLine": "111"
+        "cursorPosition": "6,0",
+        "scrollLine": "0"
     },
-    "folds": "140|12|174|0|\n",
-    "lastKnownWriteTime": 1668167016,
+    "folds": "",
+    "lastKnownWriteTime": 1668438690,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1668167016128,
+    "last_content_update": 1668438690279,
     "read_only": false,
     "read_only_alternatives": []
 }
