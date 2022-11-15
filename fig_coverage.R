@@ -142,35 +142,32 @@ table <- table %>% mutate(age_mean=(query_age_max+query_age_min)/2, age_range=(q
 
 plt3 <- ggplot()+
   geom_rect(aes(xmin = 20000, xmax = 3000000, ymin = 0, ymax = Inf, fill='scope'))+
-  geom_jitter(data=table, aes(x=age_mean, y=age_range, color='date'), alpha=.1, shape=20, size=1)+
-  scale_x_log10(breaks = c(1000, 10000, 100000, 1000000, 6000000), limits=c(100,6000000),
-                labels = c(1, 10, 100, 1000, 6000), expand = c(0,0))+
-  scale_y_log10(breaks = c(1000, 10000, 100000, 1000000, 4000000), limits=c(100,6000000),
-                labels = c(1, 10, 100, 1000, 4000), expand = c(0,0))+
-  annotation_logticks()+
-  labs(x='Age (ka BP)', y='Age range (ka)')+
-  scale_fill_manual(name=NULL,
-                    values = '#FFD28A',
-                    labels = c('Temporal scope'),
-                    guide = guide_legend(override.aes = list(alpha = 1)))+
-  scale_color_manual(name=NULL,
-                    values = '#000000',
-                    labels = c('Date'),
+  geom_histogram(data=table, aes(x=age_mean, fill=country_continent.continent))+
+  scale_x_log10(breaks = c(1000, 10000, 100000, 1000000, 6000000), limits=c(1000,6000000),
+                labels = c(1, 10, 100, 1000, 6000), expand = c(0,0))+  
+  scale_y_continuous(breaks=seq(0,3000,500), limits=c(0,3000),expand = c(0,0))+
+  annotation_logticks(sides='b')+
+  labs(x='Age (ka BP)', y='Number of assemblages')+
+  scale_fill_manual(name=NULL, 
+                    values = c('#F07241','#A59837','#5D9CA5','#FFD28A'), 
+                    labels = c('Africa','Asia','Europe','Temporal\nscope'), 
                     guide = guide_legend(override.aes = list(alpha = 1)))+
   theme_pub()+
-  theme(#legend.position='bottom',
-        legend.justification = c(0, 1), legend.position = c(0.02, 0.98),
-        legend.title = element_text(colour="black", size=8),
-        legend.text = element_text(colour="black", size=8),
-        legend.background = element_rect(fill='#FFFFFF00',
-                                         size=.5, linetype="solid", 
-                                         colour = NA),
-        legend.key=element_blank(),
-        legend.spacing.y = unit(1, 'pt'),
-        panel.grid.minor = element_blank(),
-        panel.grid.major = element_blank(),
-        plot.margin = margin(l=6, t=6, b=6, r=12, 'pt'))
+  theme(legend.justification = c(0, 1), legend.position = c(0.02, 0.98),
+    #legend.title = element_text(colour="black", size=8),
+    #legend.text = element_text(colour="black", size=8),
+    legend.background = element_rect(fill='#FFFFFF00',
+                                     size=.5, linetype="solid", 
+                                     colour = NA),
+    legend.key=element_blank(),
+    legend.spacing.y = unit(1, 'pt'),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank(),
+    plot.margin = margin(l=6, t=6, b=6, r=12, 'pt'))
+
 plt3
+  
+
 
 ggsave('fig_coverage/fig_coverage_C.png', width=180, height=180, units='mm', dpi=300)
 
@@ -193,3 +190,38 @@ ggsave('fig_coverage/fig_coverage.png', width=180, height=190, units='mm', dpi=3
 #https://stackoverflow.com/questions/68505391/stop-maps-from-wrapping-when-reprojected-in-r
 #https://r-spatial.org/r/2018/10/25/ggplot2-sf.html
 #https://stackoverflow.com/questions/66879376/align-vertical-3-plots-in-2-rows-in-cowplot-package-in-r
+
+# Old stuff ----
+
+#geom_rect(aes(xmin = 20000, xmax = 3000000, ymin = 0, ymax = Inf, fill='scope'))+
+
+#geom_density(data=table, aes(x=age_mean))+
+#geom_jitter(data=table, aes(x=age_mean, y=age_range, color='date'), alpha=.1, shape=20, size=1)+
+#scale_x_log10(breaks = c(1000, 10000, 100000, 1000000, 6000000), limits=c(100,6000000),
+#              labels = c(1, 10, 100, 1000, 6000), expand = c(0,0))+
+#scale_y_log10(breaks = c(1000, 10000, 100000, 1000000, 4000000), limits=c(100,6000000),
+#              labels = c(1, 10, 100, 1000, 4000), expand = c(0,0))+
+#annotation_logticks()+
+labs(x='Age (ka BP)', y='Age range (ka)')+
+  #scale_fill_manual(name=NULL,
+  #                  values = '#FFD28A',
+  #                  labels = c('Temporal scope'),
+  #                  guide = guide_legend(override.aes = list(alpha = 1)))+
+  #scale_color_manual(name=NULL,
+  #                  values = '#000000',
+  #                  labels = c('Date'),
+  #                  guide = guide_legend(override.aes = list(alpha = 1)))+
+  theme_pub()+
+  theme(#legend.position='bottom',
+    #legend.justification = c(0, 1), legend.position = c(0.02, 0.98),
+    #legend.title = element_text(colour="black", size=8),
+    #legend.text = element_text(colour="black", size=8),
+    #legend.background = element_rect(fill='#FFFFFF00',
+    #                                 size=.5, linetype="solid", 
+    #                                 colour = NA),
+    #legend.key=element_blank(),
+    #legend.spacing.y = unit(1, 'pt'),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank(),
+    plot.margin = margin(l=6, t=6, b=6, r=12, 'pt'))
+plt3

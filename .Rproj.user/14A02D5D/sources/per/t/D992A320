@@ -3,7 +3,7 @@
     "path": "C:/data/git/road_paper/fig_coverage.R",
     "project_path": "fig_coverage.R",
     "type": "r_source",
-    "hash": "1488666901",
+    "hash": "2512413353",
     "contents": "",
     "dirty": false,
     "created": 1667813510823.0,
@@ -13,15 +13,15 @@
         "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "102,0",
-        "scrollLine": "123"
+        "cursorPosition": "188,0",
+        "scrollLine": "164"
     },
-    "folds": "",
-    "lastKnownWriteTime": 1668444015,
+    "folds": "193|12|226|4|\n",
+    "lastKnownWriteTime": 1668507617,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1668444015329,
+    "last_content_update": 1668507617956,
     "read_only": false,
     "read_only_alternatives": []
 }
