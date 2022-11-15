@@ -93,7 +93,7 @@ plt1<- ggplot()+
   theme_pub()+
   theme(panel.grid.major = element_line(color = '#DDDDDD', linetype = 'solid', size = 0.2),
         #panel.background = element_rect(color = 'black', fill='#5D9CA5'),
-        panel.border = element_rect(colour = "black", fill=NA, size=1),
+        panel.border = element_rect(colour = "black", fill=NA, size=.5),
         #legend.position='bottom',
         legend.position='None',
         #legend.justification = c(1, 0), legend.position = c(0.99, 0.01),

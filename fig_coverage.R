@@ -13,17 +13,6 @@ table[is.na(table$locality.idlocality),] # Show localities without locality name
 
 table <- table %>% drop_na(c(locality.x, locality.y))
 
-#theme_pub <-  function(){
-#  list(theme_classic(),
-#       theme(text=element_text(size=8), #change font size of all text
-#             axis.text=element_text(size=8), #change font size of axis text
-#             axis.title=element_text(size=8), #change font size of axis titles
-#             plot.title=element_text(size=8), #change font size of plot title
-#             legend.text=element_text(size=8), #change font size of legend text
-#             legend.title=element_text(size=8),
-#             panel.grid.major = element_line(color = '#DDDDDD', linetype = 'solid', size = 0.2)))
-#}
-
 theme_pub <-  function(){
   list(theme_classic(),
        theme(text=element_text(size=8), #change font size of all text
@@ -85,7 +74,7 @@ plt1<- ggplot()+
   theme_pub()+
   theme(panel.grid.major = element_line(color = '#DDDDDD', linetype = 'solid', size = 0.2),
         panel.background = element_rect(color = 'black', fill='#5D9CA5'),
-        panel.border = element_rect(colour = "black", fill=NA, size=1),
+        panel.border = element_rect(colour = "black", fill=NA, size=.5),
         #legend.position='right',
         legend.justification = c(1, 0), legend.position = c(0.99, 0.01),
         legend.title = element_text(colour="black", size=8),
@@ -115,7 +104,7 @@ table3 <- table %>%
 plt2 <- ggplot()+
   geom_bar(data=table3, stat = 'identity', aes(y=country_continent.continent, x=value, fill=variable), position=position_dodge2(reverse=T))+
   scale_fill_manual(values=c('#F07241', '#A70D1F'), name='Number of', labels=c('assemblages','localities'))+
-  scale_x_continuous(limits=c(0,12000), breaks = seq(0,12000,2000),expand = c(0,250))+
+  scale_x_continuous(limits=c(0,12000), breaks = seq(0,12000,2000), expand = c(0,250))+
   labs(x='Count', y='')+
   geom_text(data=table3, stat='identity', aes(y=country_continent.continent, x=value, group=variable, label=value), position = position_dodge2(width = .9, reverse=T), hjust=-.1, size=2.8)+
   theme_pub()+

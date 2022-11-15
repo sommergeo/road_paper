@@ -28,6 +28,7 @@ most_cited <- road_sources %>%
   count(publication_view.source_title, sort=T) %>% 
   mutate(perc=n/sum(n), cumsum = cumsum(n), cumsum_perc=cumsum/sum(n), rank=row_number(), rank_perc=rank/length(rank))
 
+road_sources %>% count(publication_view.publication_year, sort=T)
 
 
 
@@ -60,13 +61,13 @@ plt2 <- ggplot(data=most_cited, aes(n), color='#4D4E6B')+
     aes(x=0.9-rank_perc[375], y=1.1-cumsum_perc[375], xend=1-rank_perc[375], yend=1-cumsum_perc[375]), curvature=-0.5,
     arrow = arrow(length = unit(4, 'pt'))
   )+
-  geom_label(aes(x=0.9-rank_perc[375],  y=1.1-cumsum_perc[375], label = '?Einzeltitel? add up to\n72% (n=988) of\nthe sources'), 
+  geom_label(aes(x=0.9-rank_perc[375],  y=1.1-cumsum_perc[375], label = '?Einzeltitel? add up to\n20% (n=988) of\nthe titles'), 
             hjust = 1.1, 
             vjust = 0.5, 
             size = 2.8, fill='white', label.size=NA)+
   geom_segment(aes(x=0.9-rank_perc[10], y=1-cumsum_perc[10], xend=1-rank_perc[10], yend=1-cumsum_perc[10]),
                arrow = arrow(length = unit(4, "pt")))+
-  geom_label(aes(x=0.9-rank_perc[10],y=1-cumsum_perc[10], label = "20 journals account for\n39% (n=1897) of titles"), 
+  geom_label(aes(x=0.9-rank_perc[10],y=1-cumsum_perc[10], label = "10 journals account for\n30% (n=1437) of titles"), 
             hjust = 1, 
             vjust = 0.5, 
             size = 2.8, fill='white', label.size=NA)+
@@ -74,7 +75,7 @@ plt2 <- ggplot(data=most_cited, aes(n), color='#4D4E6B')+
        y = "Cumulative percentage of titles")+
   theme_pub()+
   theme(plot.margin = margin(l=6, t=6, b=6, r=6, 'pt'),
-        panel.border = element_rect(colour = "black", fill=NA, size=1))
+        panel.border = element_rect(colour = "black", fill=NA, size=.5))
 plt2
 
 ggsave('fig_sources/fig_sources_B.png', width=90, height=90, units='mm', dpi=300, bg='white')

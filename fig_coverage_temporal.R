@@ -93,8 +93,8 @@ plt1 <- ggplot()+
   geom_point(data=table, aes(x=age_mean, y=age_range, color=dating_method), alpha=1, shape=20, size=1)+
   scale_x_log10(breaks = c(1000, 10000, 100000, 1000000, 6000000), limits=c(100,6000000),
                 labels = c(1, 10, 100, 1000, 6000), expand = c(0,0))+
-  scale_y_log10(breaks = c(1000, 10000, 100000, 1000000, 4000000), limits=c(10,6000000),
-                labels = c(1, 10, 100, 1000, 4000), expand = c(0,0))+
+  scale_y_log10(breaks = c(100, 1000, 10000, 100000, 1000000, 4000000), limits=c(10,6000000),
+                labels = c(.1, 1, 10, 100, 1000, 4000), expand = c(0,0))+
   annotation_logticks()+
   labs(x='Mean age (ka BP)', y='Age uncertainty (ka)')+
   scale_fill_manual(name=NULL,
