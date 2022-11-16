@@ -61,7 +61,7 @@ plt2 <- ggplot(data=most_cited, aes(n), color='#4D4E6B')+
     aes(x=0.9-rank_perc[375], y=1.1-cumsum_perc[375], xend=1-rank_perc[375], yend=1-cumsum_perc[375]), curvature=-0.5,
     arrow = arrow(length = unit(4, 'pt'))
   )+
-  geom_label(aes(x=0.9-rank_perc[375],  y=1.1-cumsum_perc[375], label = '?Einzeltitel? add up to\n20% (n=988) of\nthe titles'), 
+  geom_label(aes(x=0.9-rank_perc[375],  y=1.1-cumsum_perc[375], label = 'Single titles comprise\n20% (n=988) of titles'), 
             hjust = 1.1, 
             vjust = 0.5, 
             size = 2.8, fill='white', label.size=NA)+

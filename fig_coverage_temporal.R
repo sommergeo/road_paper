@@ -62,10 +62,11 @@ table <- table %>% mutate(dating_method=recode(dating_method,
                                                         
 table$dating_method <- table$dating_method %>% replace_na('Unknown')
 
-table <- table %>% mutate(dating_method = factor(dating_method, levels=c('14C','OSL','U series (Th/U, U/U, Pb/U)','ESR','TL, ITL',
-                                                                           'Ar/Ar, K/Ar','IRSL, IRSL post-IR, IR-RF',
-                                                                           'Cosmogenic nuclide','Multiple methods','Other','Unknown')))
 
+table <- table %>% 
+  filter(!dating_method %in% c('Multiple methods', 'Other', 'Unknown')) %>% 
+  filter(!age_range==1000000) %>% 
+  mutate(dating_method = factor(dating_method, levels=table %>% count(dating_method, sort=T) %>% pull(dating_method)))  # Reorder factor by size
 
 
 table %>% count(dating_method, sort=T)
@@ -83,7 +84,8 @@ theme_pub <-  function(){
        ))
 }
 
-color_discrete <- c('#a70d1f','#a59837','#f07241','#383846','#e7d448','#4d4e6b','#2e5440','#5d9ca5','black','gray40','gray60')
+color_discrete <- c('#a70d1f','#a59837','#f07241','#383846','#e7d448','#4d4e6b','#2e5440','#5d9ca5')
+label_discrete <- paste0(levels(table$dating_method),' (n=',table %>% count(dating_method, sort=T) %>% pull(n),')')  # Combine names with n
 
 # Plot ----
 
@@ -98,10 +100,10 @@ plt1 <- ggplot()+
   annotation_logticks()+
   labs(x='Mean age (ka BP)', y='Age uncertainty (ka)')+
   scale_fill_manual(name=NULL,
-                    values = '#dddddd',
-                    labels = c('Temporal scope'),
+                    values = '#FFD28A',
+                    labels = c('Project timeframe'),
                     guide = guide_legend(override.aes = list(alpha = 1)))+
-  scale_color_manual(name='Dating method', values=color_discrete)+
+  scale_color_manual(name='Dating method', values=color_discrete, labels=label_discrete)+
   theme_pub()+
   theme(legend.position='right',
     #legend.background = element_rect(fill='#FFFFFF00',

@@ -3,7 +3,7 @@
     "path": "C:/data/git/road_paper/fig_coverage.R",
     "project_path": "fig_coverage.R",
     "type": "r_source",
-    "hash": "1277805570",
+    "hash": "0",
     "contents": "",
     "dirty": true,
     "created": 1667813510823.0,
@@ -13,8 +13,8 @@
         "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "119,43",
-        "scrollLine": "97"
+        "cursorPosition": "140,62",
+        "scrollLine": "128"
     },
     "folds": "182|12|215|4|\n",
     "lastKnownWriteTime": 1668524431,
