@@ -1,27 +1,27 @@
 {
-    "id": "E34BCD45",
-    "path": "C:/data/git/road_paper/fig_sources.R",
-    "project_path": "fig_sources.R",
+    "id": "FEC8C9FE",
+    "path": "C:/data/git/road_paper/fig_schedule.R",
+    "project_path": "fig_schedule.R",
     "type": "r_source",
-    "hash": "0",
+    "hash": "345757187",
     "contents": "",
     "dirty": false,
-    "created": 1668011623049.0,
+    "created": 1668091573262.0,
     "source_on_save": false,
-    "relative_order": 3,
+    "relative_order": 4,
     "properties": {
         "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "90,0",
-        "scrollLine": "62"
+        "cursorPosition": "127,52",
+        "scrollLine": "117"
     },
     "folds": "",
-    "lastKnownWriteTime": 1668606337,
+    "lastKnownWriteTime": 1668615472,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1668606337566,
+    "last_content_update": 1668615472889,
     "read_only": false,
     "read_only_alternatives": []
 }

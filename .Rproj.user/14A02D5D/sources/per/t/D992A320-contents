@@ -139,7 +139,7 @@ plt3 <- ggplot()+
   labs(x='Age (ka BP)', y='Number of assemblages')+
   scale_fill_manual(name=NULL, 
                     values = c('#F07241','#A59837','#5D9CA5','#FFD28A'), 
-                    labels = c('Africa','Asia','Europe','Temporal\nscope'), 
+                    labels = c('Africa','Asia','Europe','Project\ntimeframe'), 
                     guide = guide_legend(override.aes = list(alpha = 1)))+
   theme_pub()+
   theme(legend.justification = c(0, 1), legend.position = c(0.02, 0.98),

@@ -8,13 +8,18 @@ library(cowplot)
 
 
 # Import data
-road_schedule <- read_delim("fig_schedule/road_schedule.csv", 
-                            delim = ";", escape_double = FALSE, col_types = cols(country_continent.continent = col_skip(), 
-                                                                                 locality.idlocality = col_skip(), 
-                                                                                 locality.created = col_date(format = "%d.%m.%Y"), 
-                                                                                 ...5 = col_skip()), trim_ws = TRUE)
+#road_schedule <- read_delim("fig_schedule/road_schedule.csv", 
+#                            delim = ";", escape_double = FALSE, col_types = cols(country_continent.continent = col_skip(), 
+#                                                                                 locality.idlocality = col_skip(), 
+#                                                                                 locality.created = col_date(format = "%d.%m.%Y"), 
+#                                                                                 ...5 = col_skip()), trim_ws = TRUE)
 
-table <- road_schedule %>% group_by(locality.country) %>% summarise(created=min(locality.created)) %>% mutate(year=as.numeric(format(created, format='%Y')))
+road_schedule <- read_delim("fig_schedule/road_schedule.csv", 
+                            delim = ";", escape_double = FALSE, col_types = cols(locality.created = col_date(format = "%d.%m.%Y"), 
+                                                                                 assemblage.created = col_date(format = "%d.%m.%Y"),
+                                                                                 ...7 = col_skip()), trim_ws = TRUE)
+
+table <- road_schedule %>% group_by(locality.country) %>% summarise(created=min(assemblage.created)) %>% mutate(year=as.numeric(format(created, format='%Y')))
 
 theme_pub <-  function(){
   list(theme_classic(),
@@ -120,7 +125,7 @@ plt2 <- ggplot()+
   scale_fill_manual(values=rev(color_gradient), breaks=year_breaks)+
   scale_x_date(breaks=year_labels, date_labels = "%Y", limits = as.Date(c('2008-01-01','2022-12-31')), expand = c(0,0))+
   scale_y_continuous(expand = c(0,0))+
-  labs(x='Year', y='Number of localities created')+
+  labs(x='Year', y='Number of assemblages created')+
   theme_pub()+
   theme(panel.grid.major.y = element_line(color = '#DDDDDD', linetype = 'solid', size = 0.2),
         legend.position='None',
