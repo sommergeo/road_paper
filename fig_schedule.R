@@ -7,12 +7,6 @@ library(cowplot)
 
 
 
-# Import data
-#road_schedule <- read_delim("fig_schedule/road_schedule.csv", 
-#                            delim = ";", escape_double = FALSE, col_types = cols(country_continent.continent = col_skip(), 
-#                                                                                 locality.idlocality = col_skip(), 
-#                                                                                 locality.created = col_date(format = "%d.%m.%Y"), 
-#                                                                                 ...5 = col_skip()), trim_ws = TRUE)
 
 road_schedule <- read_delim("fig_schedule/road_schedule.csv", 
                             delim = ";", escape_double = FALSE, col_types = cols(locality.created = col_date(format = "%d.%m.%Y"), 

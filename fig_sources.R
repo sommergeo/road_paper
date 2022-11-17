@@ -88,3 +88,15 @@ plt <- plot_grid(plt1, plt2, labels = c('A', 'B'), align='h', axis='tb', label_s
 plt
 
 ggsave('fig_sources/fig_sources.png', width=180, height=70, units='mm', dpi=300, bg='white')
+
+
+# Stats ----
+nrow(road_sources)  # number of titles
+nrow(most_cited)  # number of sources
+median(road_sources$publication_view.publication_year)  # median
+most_cited$cumsum_perc[10]  # % of titles in top 10 journals
+most_cited %>% filter(rank<=10) %>% summarise(sum(n)) # number of titles in top 10 journals
+most_cited %>% filter(n==1) %>% summarise(1-min(cumsum_perc)) %>% pull()  # % of single titles
+most_cited %>% filter(n==1) %>% summarise(sum(n))  # number of single titles
+
+

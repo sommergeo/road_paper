@@ -61,7 +61,7 @@ table <- table %>% mutate(dating_method=recode(dating_method,
                                                     'tephrostratigraphy'='Other'))
                                                         
 table$dating_method <- table$dating_method %>% replace_na('Unknown')
-
+nrow(table) # total number of 'temporal information'
 
 table <- table %>% 
   filter(!dating_method %in% c('Multiple methods', 'Other', 'Unknown')) %>% 
@@ -70,7 +70,7 @@ table <- table %>%
 
 
 table %>% count(dating_method, sort=T)
-
+nrow(table)
 
 ## Theme
 theme_pub <-  function(){

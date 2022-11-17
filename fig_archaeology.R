@@ -1,0 +1,172 @@
+library(tidyverse)
+library(readr)
+library(sf)
+library(ggspatial)
+library(cowplot)
+
+# Import data
+## Localities with astrats
+table <- read_delim("fig_archaeology/road_archaeology.csv", 
+                    delim = ";", escape_double = FALSE, trim_ws = TRUE) %>% select(-...7)
+
+## LUT for astrat consolidation
+dict <- readxl::read_excel("fig_archaeology/arch_strat_consol.xlsx", 
+                   sheet = "arch_strat_ROAD", skip = 1) %>% select(idarchstrat, consol26='new_a_strat for simple search list 2', consol40='new_a_strat for simple search list 1')
+
+## tidy table
+table <- table  %>%
+  separate(archaeological_stratigraphy.technocomplex, into=c('period',NA), sep='/', remove=F) %>% 
+  filter(period %in% c('ESA','MSA','LSA','LP','MP','UP')) %>% 
+  mutate(astrat.consol=plyr::mapvalues(archaeological_stratigraphy.idarchstrat, from=dict$idarchstrat, to=dict$consol26)) %>% 
+  filter(!astrat.consol=='do not use') %>% 
+  drop_na(c(locality.x, locality.y))
+
+## split table
+table1 <- table %>% filter(period %in% c('LSA','UP')) %>% mutate(period=factor(period, levels=c('UP','LSA')))
+point1 <- st_as_sf(x = table1, coords = c('locality.x', 'locality.y'), crs = st_crs(4326))
+
+table2 <- table %>% filter(period %in% c('MSA','MP'))
+point2 <- st_as_sf(x = table2, coords = c('locality.x', 'locality.y'), crs = st_crs(4326))
+
+table3 <- table %>% filter(period %in% c('ESA','LP'))
+point3 <- st_as_sf(x = table3, coords = c('locality.x', 'locality.y'), crs = st_crs(4326))
+
+## other relevant stuff
+theme_pub <-  function(){
+  list(scale_fill_manual(name='Number of localities', 
+                         breaks = c('UP','LSA','MP','MSA','LP','ESA'),
+                         values = c('#F07241','#A70D1F','#A59837','#2E5440','#5D9CA5','#4D4E6B'), 
+                         labels = c('Upper Paleolithic','Later Stone Age','Middle Paleolithic','Middle Stone Age','Lower Paleolithic','Early Stone Age')),
+       geom_bar(aes(fill=period, y=fct_rev(fct_infreq(astrat.consol)))),
+       geom_text(stat='count', aes(label=..count.., y=fct_rev(fct_infreq(astrat.consol))), hjust=-.1, size=2.8),
+       labs(x='Count', y='Technocomplex'),
+       scale_x_continuous(limits=c(0,300), expand = c(0,0)),
+       scale_y_discrete(labels = function(x) str_wrap(x, width = 22)),
+       theme_classic(),
+       theme(#legend.position='bottom',
+             legend.justification = c(1, 0), legend.position = c(0.99, 0.01),
+             text=element_text(size=8), #change font size of all text
+             axis.text.x=element_text(size=8), #change font size of axis text
+             axis.text.y=element_text(size=8), #change font size of axis text
+             axis.title=element_text(size=8), #change font size of axis titles
+             plot.title=element_text(size=8), #change font size of plot title
+             legend.text=element_text(size=8), #change font size of legend text
+             legend.title=element_text(size=8),
+             plot.margin = margin(l=6, t=6, b=6, r=12, 'pt')
+       ))
+}
+
+theme_map <-  function(){
+  list(scale_fill_manual(name='Cultural period', 
+                         breaks = c('UP','LSA','MP','MSA','LP','ESA'),
+                         values = c('#F07241','#A70D1F','#A59837','#2E5440','#5D9CA5','#4D4E6B'), 
+                         labels = c('Upper Paleolithic','Later Stone Age','Middle Paleolithic','Middle Stone Age','Lower Paleolithic','Early Stone Age')),
+       coord_sf(crs = '+proj=natearth2 +lon_0=60 +x_0=0 +y_0=0 +R=6371008.7714 +units=m +no_defs +type=crs',xlim=c(-7500000,8600000), ylim=c(-4500000,8000000), expand=T),
+       scale_x_continuous(breaks = seq(-180, 180, by = 30)),
+       scale_y_continuous(breaks = seq(-90, 90, by = 30)),
+       annotation_scale(location = 'br', width_hint = 0.2),
+       theme_classic(),
+       theme(text=element_text(size=8), #change font size of all text
+             axis.text=element_text(size=8), #change font size of axis text
+             axis.title=element_text(size=8), #change font size of axis titles
+             plot.title=element_text(size=8), #change font size of plot title
+             legend.text=element_text(size=8), #change font size of legend text
+             legend.title=element_text(size=8),
+             panel.grid.major = element_line(color = '#DDDDDD', linetype = 'solid', size = 0.2),
+             panel.background = element_rect(color = 'black', fill='#5D9CA5'),
+             panel.border = element_rect(colour = "black", fill=NA, size=.5),
+             legend.position='none',
+             #legend.justification = c(1, 0), legend.position = c(0.99, 0.01),
+             #legend.background = element_rect(fill='#FFFFFF',
+             #                                 size=.5, linetype="solid", 
+             #                                 colour ="black"),
+             #legend.key=element_blank(),
+             plot.margin = margin(l=6, t=6, b=6, r=6, 'pt')
+       ))
+}
+
+# Figures
+## Map data
+world <- rnaturalearth::ne_countries(scale = 110, returnclass = 'sf') %>% st_transform(crs=st_crs(4326)) %>% st_make_valid()
+
+offset <- 180-60
+polygon <- st_polygon(x = list(rbind(
+  c(-0.0001 - offset, 90),
+  c(0 - offset, 90),
+  c(0 - offset, -90),
+  c(-0.0001 - offset, -90),
+  c(-0.0001 - offset, 90)
+))) %>%
+  st_sfc() %>%
+  st_set_crs(4326)
+
+world <- world %>% st_difference(polygon)
+
+
+## Figure A
+plt11<- ggplot()+
+  geom_sf(data=world, color = 'white', fill = '#FFD28A', size=0.2)+
+  geom_sf(data=point1, aes(fill=period), color='grey10', shape=21)+
+  theme_map()
+plt11
+
+ggsave('fig_archaeology/fig_archaeology_A.png', width=100, height=70, units='mm', dpi=300)
+
+# Figure C
+plt21<- ggplot()+
+  geom_sf(data=world, color = 'white', fill = '#FFD28A', size=0.2)+
+  geom_sf(data=point2, aes(fill=period), color='grey10', shape=21)+
+  theme_map()
+plt21
+
+ggsave('fig_archaeology/fig_archaeology_C.png', width=100, height=70, units='mm', dpi=300)
+
+# Figure E
+plt31<- ggplot()+
+  geom_sf(data=world, color = 'white', fill = '#FFD28A', size=0.2)+
+  geom_sf(data=point3, aes(fill=period), color='grey10', shape=21)+
+  theme_map()
+plt31
+
+ggsave('fig_archaeology/fig_archaeology_E.png', width=100, height=70, units='mm', dpi=300)
+
+## Figure B
+plt12<- ggplot(data=table1)+
+  theme_pub()
+
+plt12
+
+ggsave('fig_archaeology/fig_archaeology_B.png', width=80, height=70, units='mm', dpi=300)
+
+
+## Figure D
+plt22<- ggplot(data=table2)+
+  theme_pub()
+
+plt22
+
+ggsave('fig_archaeology/fig_archaeology_D.png', width=90, height=90, units='mm', dpi=300)
+
+
+## Figure F
+plt32<- ggplot(data=table3)+
+  theme_pub()
+
+plt32
+
+ggsave('fig_archaeology/fig_archaeology_F.png', width=90, height=90, units='mm', dpi=300)
+
+
+# Combine plots ----
+plt <- plot_grid(plt11,plt12,plt21,plt22,plt31,plt32, 
+                 labels=c('A','B','C','D','E','F'), label_size=10, ncol=2,
+                 align='vh', axis='rtb', rel_widths=c(90,90))
+
+plt
+ggsave('fig_archaeology/fig_archaeology.png', width=180, height=210, units='mm', dpi=300, bg='white')
+
+
+
+
+
+
