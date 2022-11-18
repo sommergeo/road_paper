@@ -41,18 +41,18 @@ theme_pub <-  function(){
        geom_text(stat='count', aes(label=..count.., y=fct_rev(fct_infreq(astrat.consol))), hjust=-.1, size=2.8),
        labs(x='Count', y='Technocomplex'),
        scale_x_continuous(limits=c(0,300), expand = c(0,0)),
-       scale_y_discrete(labels = function(x) str_wrap(x, width = 22)),
+       scale_y_discrete(labels = function(x) str_wrap(x, width = 20)),
        theme_classic(),
        theme(#legend.position='bottom',
              legend.justification = c(1, 0), legend.position = c(0.99, 0.01),
              text=element_text(size=8), #change font size of all text
              axis.text.x=element_text(size=8), #change font size of axis text
-             axis.text.y=element_text(size=8), #change font size of axis text
-             axis.title=element_text(size=8), #change font size of axis titles
+             axis.text.y=element_text(size=8, color='black'), #change font size of axis text
+             axis.title.x=element_text(size=8), #change font size of axis titles
+             axis.title.y=element_blank(), #change font size of axis titles
              plot.title=element_text(size=8), #change font size of plot title
              legend.text=element_text(size=8), #change font size of legend text
-             legend.title=element_text(size=8),
-             plot.margin = margin(l=6, t=6, b=6, r=12, 'pt')
+             legend.title=element_text(size=8)
        ))
 }
 
@@ -81,7 +81,7 @@ theme_map <-  function(){
              #                                 size=.5, linetype="solid", 
              #                                 colour ="black"),
              #legend.key=element_blank(),
-             plot.margin = margin(l=6, t=6, b=6, r=6, 'pt')
+             #plot.margin = margin(l=6, t=6, b=6, r=6, 'pt')
        ))
 }
 
@@ -132,7 +132,8 @@ ggsave('fig_archaeology/fig_archaeology_E.png', width=100, height=70, units='mm'
 
 ## Figure B
 plt12<- ggplot(data=table1)+
-  theme_pub()
+  theme_pub()+
+  theme(plot.margin = margin(l=15, t=6, b=6, r=12, 'pt'))
 
 plt12
 
@@ -141,7 +142,8 @@ ggsave('fig_archaeology/fig_archaeology_B.png', width=80, height=70, units='mm',
 
 ## Figure D
 plt22<- ggplot(data=table2)+
-  theme_pub()
+  theme_pub()+
+  theme(plot.margin = margin(l=0, t=6, b=6, r=12, 'pt'))
 
 plt22
 
@@ -150,7 +152,8 @@ ggsave('fig_archaeology/fig_archaeology_D.png', width=90, height=90, units='mm',
 
 ## Figure F
 plt32<- ggplot(data=table3)+
-  theme_pub()
+  theme_pub()+
+  theme(plot.margin = margin(l=13.5, t=6, b=6, r=12, 'pt'))
 
 plt32
 
@@ -159,14 +162,8 @@ ggsave('fig_archaeology/fig_archaeology_F.png', width=90, height=90, units='mm',
 
 # Combine plots ----
 plt <- plot_grid(plt11,plt12,plt21,plt22,plt31,plt32, 
-                 labels=c('A','B','C','D','E','F'), label_size=10, ncol=2,
+                 labels=c('A','B','C','D','E','F'), label_size=10, ncol=2, greedy=F,
                  align='vh', axis='rtb', rel_widths=c(90,90))
 
 plt
 ggsave('fig_archaeology/fig_archaeology.png', width=180, height=210, units='mm', dpi=300, bg='white')
-
-
-
-
-
-
