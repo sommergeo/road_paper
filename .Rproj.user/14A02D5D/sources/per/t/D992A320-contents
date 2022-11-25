@@ -104,7 +104,7 @@ table3 <- table %>%
 plt2 <- ggplot()+
   geom_bar(data=table3, stat = 'identity', aes(y=country_continent.continent, x=value, fill=variable), position=position_dodge2(reverse=T))+
   scale_fill_manual(values=c('#F07241', '#A70D1F'), name='Number of', labels=c('assemblages','localities'))+
-  scale_x_continuous(limits=c(0,12000), breaks = seq(0,12000,2000), expand = c(0,250))+
+  scale_x_continuous(limits=c(0,12500), breaks = seq(0,12000,2000), expand = c(0,0))+
   labs(x='Count', y='')+
   geom_text(data=table3, stat='identity', aes(y=country_continent.continent, x=value, group=variable, label=value), position = position_dodge2(width = .9, reverse=T), hjust=-.1, size=2.8)+
   theme_pub()+

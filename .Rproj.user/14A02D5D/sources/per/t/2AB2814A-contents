@@ -64,7 +64,8 @@ table$dating_method <- table$dating_method %>% replace_na('Unknown')
 nrow(table) # total number of 'temporal information'
 
 table <- table %>% 
-  filter(!dating_method %in% c('Multiple methods', 'Other', 'Unknown')) %>% 
+  filter(!dating_method %in% c('Multiple methods', 'Other', 'Unknown'))
+table <- table %>% 
   filter(!age_range==1000000) %>% 
   mutate(dating_method = factor(dating_method, levels=table %>% count(dating_method, sort=T) %>% pull(dating_method)))  # Reorder factor by size
 
@@ -95,8 +96,8 @@ plt1 <- ggplot()+
   geom_point(data=table, aes(x=age_mean, y=age_range, color=dating_method), alpha=1, shape=20, size=1)+
   scale_x_log10(breaks = c(1000, 10000, 100000, 1000000, 6000000), limits=c(100,6000000),
                 labels = c(1, 10, 100, 1000, 6000), expand = c(0,0))+
-  scale_y_log10(breaks = c(100, 1000, 10000, 100000, 1000000, 4000000), limits=c(10,6000000),
-                labels = c(.1, 1, 10, 100, 1000, 4000), expand = c(0,0))+
+  scale_y_log10(breaks = c(100, 1000, 10000, 100000, 1000000, 3000000), limits=c(10,3000000),
+                labels = c(.1, 1, 10, 100, 1000, 3000), expand = c(0,0))+
   annotation_logticks()+
   labs(x='Mean age (ka BP)', y='Age uncertainty (ka)')+
   scale_fill_manual(name=NULL,
@@ -118,3 +119,6 @@ plt1 <- ggplot()+
 
 plt1
 ggsave('fig_coverage_temporal/fig_coverage_temporal.png', width=180, height=110, units='mm', dpi=300)
+
+
+#https://colordesigner.io/gradient-generator

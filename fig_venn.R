@@ -21,7 +21,8 @@ ggVennDiagram(x, set_color = 'black', label='both', set_size=3, label_size = 2, 
   scale_x_continuous(expand = expansion(mult = .2))+
   scale_y_continuous(expand = expansion(mult = .2))+
   scale_fill_gradient(name='Number of\nLocalities',
-                      low="#d5dcd8", high="#2e5440",
+                      #low="#d5dcd8", high="#2e5440",
+                      low='#FFD28A', high='#A70D1F', space = "Lab",
                       trans='log', breaks=c(1, 10,100,1000), labels=c(1,10,100,1000),
                       limits=c(1,1000))+
   scale_color_manual(values=c('black','black','black','black'))+
