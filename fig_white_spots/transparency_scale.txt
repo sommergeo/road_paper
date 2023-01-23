@@ -1,0 +1,10 @@
+# QGIS Generated Transparent Pixel Value Export File
+#
+#
+# Value	Percent Transparent
+0	0.95	50
+0.85	0.96	60
+0.96	0.97	70
+0.97	0.98	80
+0.98	0.99	99
+0.99	1.1	100

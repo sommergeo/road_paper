@@ -1,0 +1,29 @@
+
+# Kernel density estimate
+Loading resulting layers
+Algorithm 'Heatmap (Kernel Density Estimation)' finished
+QGIS version: 3.28.1-Firenze
+QGIS code revision: fde3b8fbb8c
+Qt version: 5.15.3
+Python version: 3.9.5
+GDAL version: 3.6.0
+GEOS version: 3.11.1-CAPI-1.17.1
+PROJ version: Rel. 9.1.0, September 1st, 2022
+PDAL version: 2.4.3 (git-version: fc5f98)
+Algorithm started at: 2023-01-23T12:43:07
+Algorithm 'Heatmap (Kernel Density Estimation)' starting…
+Input parameters:
+{ 'DECAY' : 0, 'INPUT' : 'C:/data/git/road_paper/fig_white_spots/road_coverage_ROBINSON.shp', 'KERNEL' : 0, 'OUTPUT' : 'TEMPORARY_OUTPUT', 'OUTPUT_VALUE' : 0, 'PIXEL_SIZE' : 5000, 'RADIUS' : 300000, 'RADIUS_FIELD' : '', 'WEIGHT_FIELD' : '' }
+
+Execution completed in 170.72 seconds (2 minutes 51 seconds)
+Results:
+{'OUTPUT': 'C:/Users/chs/AppData/Local/Temp/processing_odvVPv/f05aba6fa24e48d3be9a166a1f8367db/OUTPUT.tif'}
+
+# LOG10
+ log10 ( "road_coverage_heatmap@1")
+ 
+# Normalize
+Max: -6.976320266723633
+Min: -21.74299812316895
+
+("road_coverage_heatmap_log10@1"--21.74299812316895) / (-6.976320266723633 - -21.74299812316895)

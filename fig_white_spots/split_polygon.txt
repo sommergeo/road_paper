@@ -1,0 +1,3 @@
+make_line (make_point (-120.1, 90),make_point (-119.9, 90), make_point (-119.9,-90), make_point (-120.1,-90),make_point (-120.1, 90))
+
+make_polygon (make_line (make_point (-120.1, 90),make_point (-119.9, 90), make_point (-119.9,-90), make_point (-120.1,-90),make_point (-120.1, 90)))
