@@ -41,7 +41,7 @@ theme_pub <-  function(){
        geom_text(stat='count', aes(label=..count.., y=fct_rev(fct_infreq(astrat.consol))), hjust=-.1, size=2.8),
        labs(x='Count', y='Technocomplex'),
        scale_x_continuous(limits=c(0,300), expand = c(0,0)),
-       scale_y_discrete(labels = function(x) str_wrap(x, width = 20)),
+       scale_y_discrete(labels = function(x) str_wrap(x, width = 19)),
        theme_classic(),
        theme(#legend.position='bottom',
              legend.justification = c(1, 0), legend.position = c(0.99, 0.01),
@@ -133,7 +133,7 @@ ggsave('fig_archaeology/fig_archaeology_E.png', width=100, height=70, units='mm'
 ## Figure B
 plt12<- ggplot(data=table1)+
   theme_pub()+
-  theme(plot.margin = margin(l=15, t=6, b=6, r=12, 'pt'))
+  theme(plot.margin = margin(l=14, t=6, b=6, r=12, 'pt'))
 
 plt12
 
@@ -153,7 +153,7 @@ ggsave('fig_archaeology/fig_archaeology_D.png', width=90, height=90, units='mm',
 ## Figure F
 plt32<- ggplot(data=table3)+
   theme_pub()+
-  theme(plot.margin = margin(l=13.5, t=6, b=6, r=12, 'pt'))
+  theme(plot.margin = margin(l=13, t=6, b=6, r=12, 'pt'))
 
 plt32
 

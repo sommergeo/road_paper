@@ -1,0 +1,3 @@
+ [1] "TL, ITL"                    "ESR"                        "U series (Th/U, U/U, Pb/U)" "14C"                        "Other"                     
+ [6] "Unknown"                    "Multiple methods"           "Ar/Ar, K/Ar"                "OSL"                        "IRSL, IRSL post-IR, IR-RF" 
+[11] NA                           "Cosmogenic nuclide"  
