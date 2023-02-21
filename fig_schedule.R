@@ -66,7 +66,7 @@ world <- world %>% st_difference(polygon)
 ggplot()+
   geom_sf(data=world, aes(fill=year))
 
-color_gradient <- c('#ffd28a','#fdc287','#f9b387','#f2a588','#e8988a','#dc8c8b','#cd828d','#bd798d','#ab718c','#986a89','#856384','#715c7d','#5f5575','#4d4e6b') #https://colordesigner.io/gradient-generator/?mode=lch#fafa6e-2A4858
+color_gradient <- c('#ffd28a','#fec388','#fab587','#f4a888','#eb9b89','#e0908b','#d4868c','#c57d8d','#b5758c','#a46e8b','#926887','#806183','#6f5b7c','#5d5574','#4d4e6b') #https://colordesigner.io/gradient-generator/?mode=lch#fafa6e-2A4858
 
 
 plt1<- ggplot()+
@@ -109,15 +109,14 @@ ggsave('fig_schedule/fig_schedule_A.png', width=180, height=180, units='mm', dpi
 
 
 # Timeline ----
-year_breaks <- seq(as.Date("2009-01-01"), as.Date("2023-01-01"), "years")
-year_labels <- seq(as.Date("2008-01-01"), as.Date("2023-01-01"), "2 years")
-quarter_breaks <- seq(as.Date("2009-01-01"), as.Date("2023-01-01"), "quarters")
+year_breaks <- seq(as.Date("2009-01-01"), as.Date("2024-01-01"), "years")
+year_labels <- seq(as.Date("2009-01-01"), as.Date("2024-01-01"), "2 years")
+quarter_breaks <- seq(as.Date("2009-01-01"), as.Date("2024-01-01"), "quarters")
 
 plt2 <- ggplot()+
   geom_histogram(data=road_schedule, aes(x=locality.created, fill=cut(locality.created, breaks=year_breaks)), breaks=quarter_breaks)+
-  #scale_fill_scico_d(palette = 'batlow', begin = 0.1) +
   scale_fill_manual(values=rev(color_gradient), breaks=year_breaks)+
-  scale_x_date(breaks=year_labels, date_labels = "%Y", limits = as.Date(c('2008-01-01','2022-12-31')), expand = c(0,0))+
+  scale_x_date(breaks=year_labels, date_labels = "%Y", limits = as.Date(c('2008-01-01','2023-12-31')), expand = c(0,0))+
   scale_y_continuous(expand = c(0,0))+
   labs(x='Year', y='Number of assemblages created')+
   theme_pub()+
@@ -133,7 +132,14 @@ ggsave('fig_schedule/fig_schedule_B.png', width=180, height=180, units='mm', dpi
 plt <- plot_grid(plt1, plt2, labels = c('A', 'B'), align='h', axis='tb', label_size = 10, ncol=2, rel_widths = c(1,0.74))
 plt
 
-ggsave('fig_schedule/fig_schedule.png', width=180, height=80, units='mm', dpi=300, bg='black')
+ggsave('fig_schedule/fig_schedule.png', width=190.5, height=80, units='mm', dpi=300, bg='white')
+ggsave('fig_schedule/fig_schedule.tiff', width=190.5, height=80, units='mm', dpi=300, bg='white')
+
+
+
+
+
+
 
 # Old stuff ----
 plt1<- ggplot()+

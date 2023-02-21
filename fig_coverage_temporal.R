@@ -2,19 +2,19 @@ library(tidyverse)
 library(readr)
 
 # Import data
-table1 <- read_delim("fig_coverage_temporal/road_coverage_arch_layer_age.csv", 
+table1 <- read_delim("fig_coverage_temporal/table_archaeological_layer_age.csv", 
                       delim = ";", escape_double = FALSE, trim_ws = TRUE, 
                       skip = 1) %>% 
   mutate(age_range=pmax(positive_standard_deviation, negative_standard_deviation)) %>% 
   select(age_mean=age, age_range, dating_method)
 
-table2 <- read_delim("fig_coverage_temporal/road_coverage_assemblage_layer_age.csv", 
+table2 <- read_delim("fig_coverage_temporal/table_assemblage_age.csv", 
                       delim = ";", escape_double = FALSE, trim_ws = TRUE, 
                       skip = 1) %>% 
   mutate(age_range=pmax(positive_standard_deviation, negative_standard_deviation)) %>% 
   select(age_mean=age, age_range, dating_method)
 
-table3 <- read_delim("fig_coverage_temporal/road_coverage_geo_layer_age.csv", 
+table3 <- read_delim("fig_coverage_temporal/table_geological_layer_age.csv", 
                       delim = ";", escape_double = FALSE, trim_ws = TRUE, 
                       skip = 1) %>% 
   mutate(age_range=pmax(positive_standard_deviation, negative_standard_deviation)) %>% 
@@ -91,7 +91,7 @@ label_discrete <- paste0(levels(table$dating_method),' (n=',table %>% count(dati
 # Plot ----
 
 plt1 <- ggplot()+
-  #coord_fixed()+
+  coord_fixed()+
   geom_rect(aes(xmin = 20000, xmax = 3000000, ymin = 0, ymax = Inf, fill='scope'))+
   geom_point(data=table, aes(x=age_mean, y=age_range, color=dating_method), alpha=1, shape=20, size=1)+
   scale_x_log10(breaks = c(1000, 10000, 100000, 1000000, 6000000), limits=c(100,6000000),
@@ -118,7 +118,8 @@ plt1 <- ggplot()+
   guides(color = guide_legend(ncol = 1, byrow = TRUE))
 
 plt1
-ggsave('fig_coverage_temporal/fig_coverage_temporal.png', width=180, height=110, units='mm', dpi=300)
+ggsave('fig_coverage_temporal/fig_coverage_temporal.png', width=132, height=90, units='mm', dpi=300, bg='white')
+ggsave('fig_coverage_temporal/fig_coverage_temporal.tiff', width=132, height=90, units='mm', dpi=300, bg='white')
 
 
 #https://colordesigner.io/gradient-generator

@@ -26,9 +26,8 @@ theme_pub <-  function(){
              plot.title=element_text(size=8), #change font size of plot title
              legend.text=element_text(size=8), #change font size of legend text
              legend.title=element_text(size=8),
-             panel.grid.major.x = element_line(color = '#DDDDDD', linetype = 'solid', size = 0.2),
-             axis.ticks = element_blank(),
-             axis.line.x = element_blank()
+             panel.grid.major.x = element_line(color = '#CCCCCC', linetype = 'solid', size = 0.4),
+             axis.ticks = element_blank()
        ))
 }
 
@@ -132,7 +131,7 @@ plt4<- ggplot(data=table_period)+
   geom_col(aes(x=n, y=fct_rev(fct_infreq(period)), fill=period))+
   geom_text(aes(label=n, x=n, y=fct_rev(fct_infreq(period))), hjust=-.1, size=2.8)+
   labs(x='Number of localities', y='Cultural Period')+
-  scale_x_continuous(limits=c(0,650), expand = c(0,0))+
+  scale_x_continuous(limits=c(0,700), expand = c(0,0))+
   scale_y_discrete(labels = function(x) str_wrap(x, width = 19))+
   theme_pub()+
   theme(legend.position='none',
@@ -155,7 +154,7 @@ ggsave('fig_archaeology/fig_archaeology.tiff', width=190.5, height=160, units='m
 
 
 
-# Culutres table
+# Cultures table
 ## LUT for astrat consolidation
 dict <- readxl::read_excel("fig_archaeology/arch_strat_consol.xlsx", 
                            sheet = "arch_strat_ROAD", skip = 1) %>% select(idarchstrat, consol26='new_a_strat for simple search list 2', consol40='new_a_strat for simple search list 1')
@@ -165,7 +164,7 @@ table_cultures <- read_delim("fig_archaeology/road_archaeology.csv",
                              delim = ";", escape_double = FALSE, trim_ws = TRUE) %>% select(-...7)  %>%
   mutate(astrat.consol=plyr::mapvalues(archaeological_stratigraphy.idarchstrat, from=dict$idarchstrat, to=dict$consol40)) %>% 
   count(astrat.consol) %>% 
-  filter(!astrat.consol %in% c('do not use', 'Other Early Stone Age','Other Late Stone Age','Other Middle Paleolithic','Other Middle Stone Age','Other Upper Paleolithic','Lower Paleolithic')) %>% 
+  filter(!astrat.consol %in% c('do not use', 'Other Early Stone Age','Other Late Stone Age','Other Middle Paleolithic','Other Middle Stone Age','Other Upper Paleolithic','Lower Paleolithic', 'Holocene', 'Epipaleolithic', 'Magdalenian')) %>% 
   filter(n>=10)
 
 plt5 <- ggplot(data=table_cultures)+

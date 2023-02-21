@@ -11,7 +11,6 @@ table <- read_delim('fig_coverage/road_coverage.csv',
 table[is.na(table$locality.x)|is.na(table$locality.y),] # Show localities without coordinates
 table[is.na(table$locality.idlocality),] # Show localities without locality name
 
-table <- table %>% drop_na(c(locality.x, locality.y))
 
 theme_pub <-  function(){
   list(theme_classic(),
@@ -26,10 +25,10 @@ theme_pub <-  function(){
 
 # World map ----
 ## Aggregate assemblages per locality
-table2 <- table %>% count(locality.idlocality, locality.x, locality.y, sort=T)
-
-table2[duplicated(table2$locality.idlocality),] # Show localities with duplicates, double coordinates etc.
-
+table2 <- table %>% 
+  distinct(locality.idlocality, assemblage.name, .keep_all = TRUE) %>%   # filter out duplicates due to dating
+  drop_na(c(locality.x, locality.y)) %>% 
+  count(locality.idlocality, locality.x, locality.y, sort=T)
 
 ## Make geodata
 points <- st_as_sf(x = table2,                         
@@ -93,8 +92,8 @@ ggsave('fig_coverage/fig_coverage_A.png', width=180, height=150, units='mm', dpi
 
 
 # Bar Chart
-
 table3 <- table %>% 
+  distinct(locality.idlocality, assemblage.name, .keep_all = TRUE) %>%   # filter out duplicates due to dating
   group_by(country_continent.continent) %>% 
   summarize(no_assemblages = n_distinct(assemblage.name, locality.idlocality), no_localities = n_distinct(locality.idlocality)) %>% 
   pivot_longer(cols=-country_continent.continent, names_to = 'variable', values_to = 'value') %>% 
@@ -104,7 +103,7 @@ table3 <- table %>%
 plt2 <- ggplot()+
   geom_bar(data=table3, stat = 'identity', aes(y=country_continent.continent, x=value, fill=variable), position=position_dodge2(reverse=T))+
   scale_fill_manual(values=c('#F07241', '#A70D1F'), name='Number of', labels=c('assemblages','localities'))+
-  scale_x_continuous(limits=c(0,12500), breaks = seq(0,12000,2000), expand = c(0,0))+
+  scale_x_continuous(limits=c(0,13500), breaks = seq(0,12000,2000), expand = c(0,0))+
   labs(x='Count', y='')+
   geom_text(data=table3, stat='identity', aes(y=country_continent.continent, x=value, group=variable, label=value), position = position_dodge2(width = .9, reverse=T), hjust=-.1, size=2.8)+
   theme_pub()+
@@ -118,6 +117,7 @@ plt2 <- ggplot()+
         legend.key=element_blank(),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_line(color = '#CCCCCC', linetype = 'solid', size = 0.4),
         plot.margin = margin(l=6, t=6, b=6, r=12, 'pt'))
 plt2
 
@@ -172,7 +172,8 @@ top_row <- plot_grid(plt1, labels=c('A'), label_size=10)
 full_plot <- plot_grid(top_row, bottom_row, nrow=2, rel_heights = c(2,.8), align='h', axis='l')
 full_plot
 
-ggsave('fig_coverage/fig_coverage.png', width=180, height=190, units='mm', dpi=300, bg='white')
+ggsave('fig_coverage/fig_coverage.png', width=190.5, height=200, units='mm', dpi=300, bg='white')
+ggsave('fig_coverage/fig_coverage.tiff', width=190.5, height=200, units='mm', dpi=300, bg='white')
 
 
 # Notes ----

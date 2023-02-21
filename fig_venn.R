@@ -21,7 +21,7 @@ ggVennDiagram(x, set_color = 'black', label='both', set_size=3, label_size = 2, 
   scale_x_continuous(expand = expansion(mult = .2))+
   scale_y_continuous(expand = expansion(mult = .2))+
   scale_fill_gradient(name='Number of\nLocalities',
-                      #low="#d5dcd8", high="#2e5440",
+                      #low="#ffd28a", high="#4d4e6b",
                       low='#FFD28A', high='#A70D1F', space = "Lab",
                       trans='log', breaks=c(1, 10,100,1000), labels=c(1,10,100,1000),
                       limits=c(1,1000))+
@@ -31,8 +31,8 @@ ggVennDiagram(x, set_color = 'black', label='both', set_size=3, label_size = 2, 
         legend.text=element_text(size=8), #change font size of legend text
         legend.title=element_text(size=8))
 
-ggsave('fig_venn/fig_venn_v2.tiff', width=120, height=80, units='mm', dpi=300)
-ggsave('fig_venn/fig_venn_v2.png', width=120, height=80, units='mm', dpi=300, bg='white')
+ggsave('fig_venn/fig_venn.tiff', width=132, height=85, units='mm', dpi=300)
+ggsave('fig_venn/fig_venn.png', width=132, height=85, units='mm', dpi=300, bg='white')
   
 
 
