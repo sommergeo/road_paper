@@ -74,8 +74,8 @@ plt1<- ggplot()+
   coord_sf(crs = '+proj=natearth2 +lon_0=60 +x_0=0 +y_0=0 +R=6371008.7714 +units=m +no_defs +type=crs',xlim=c(-7500000,8600000), ylim=c(-4500000,8000000), expand=T)+
   scale_x_continuous(breaks = seq(-180, 180, by = 30))+
   scale_y_continuous(breaks = seq(-90, 90, by = 30))+
-  scale_color_manual(values=rev(color_gradient), na.value = '#DDDDDD', breaks=seq(2009,2022))+
-  scale_fill_manual(values=rev(color_gradient), na.value = '#DDDDDD', breaks=seq(2009,2022))+
+  scale_color_manual(values=rev(color_gradient), na.value = '#DDDDDD', breaks=seq(2009,2023))+
+  scale_fill_manual(values=rev(color_gradient), na.value = '#DDDDDD', breaks=seq(2009,2023))+
   #scale_fill_scico(
   #  palette = 'batlow', begin = 0.1, limits = c(2009, 2022),
     #name = 'Start', breaks = seq(2009,2022),
@@ -134,7 +134,7 @@ plt
 
 ggsave('fig_schedule/fig_schedule.png', width=190.5, height=80, units='mm', dpi=300, bg='white')
 ggsave('fig_schedule/fig_schedule.tiff', width=190.5, height=80, units='mm', dpi=300, bg='white')
-
+ggsave('fig_schedule/fig_schedule.pdf', width=190.5, height=80, units='mm', bg='white')
 
 
 
