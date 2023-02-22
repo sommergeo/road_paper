@@ -149,6 +149,7 @@ plt <- plot_grid(plt1,plt2,plt3,plt4,
 plt
 ggsave('fig_archaeology/fig_archaeology.png', width=190.5, height=160, units='mm', dpi=300, bg='white')
 ggsave('fig_archaeology/fig_archaeology.tiff', width=190.5, height=160, units='mm', dpi=300, bg='white')
+ggsave('fig_archaeology/fig_archaeology.pdf', width=190.5, height=160, units='mm', bg='white')
 
 
 
@@ -179,7 +180,7 @@ plt5 <- ggplot(data=table_cultures)+
 plot(plt5)  
 ggsave('fig_archaeology/fig_archaeology_cultures.png', width=132, height=90, units='mm', dpi=300, bg='white')
 ggsave('fig_archaeology/fig_archaeology_cultures.tiff', width=132, height=90, units='mm', dpi=300, bg='white')
-
+ggsave('fig_archaeology/fig_archaeology_cultures.pdf', width=132, height=90, units='mm', bg='white')
 
 
 

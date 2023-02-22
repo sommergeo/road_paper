@@ -33,16 +33,22 @@ world <- rnaturalearth::ne_countries(scale = 110, returnclass = 'sf') %>% st_tra
 ## Find difference in country names
 intersect(table$locality.country, world$admin)
 setdiff(table$locality.country, world$admin)
+setdiff(table$locality.country, world$geounit)
 world$admin
 
 ## Align countries with natural earth data (i will regret this)
 table <- table %>% mutate(locality.country=recode(locality.country,
-                                                  'Congo, Republic of the' = 'Swaziland',
-                                                  'Eswatini' = 'Swaziland',
+                                                  "Congo, Democratic Republic of the [Zaire]"='Democratic Republic of the Congo',
                                                   'Congo, Republic of the' = 'Democratic Republic of the Congo',
+                                                  'Eswatini' = 'Swaziland',
+                                                  'Gibraltar' = 'United Kingdom',
+                                                  'Jersey' = 'United Kingdom',
+                                                  'Korea, North' = 'North Korea',
+                                                  'Korea, South' = 'South Korea',
                                                   'Serbia'= 'Republic of Serbia',
                                                   'North Macedonia'= 'Macedonia',
-                                                  'Tanzania'='United Republic of Tanzania'))
+                                                  'Tanzania'='United Republic of Tanzania',
+                                                  'Timor-Leste'='East Timor'))
 
 ## Join 
 world <- left_join(world, table, by = c("admin" = 'locality.country'))

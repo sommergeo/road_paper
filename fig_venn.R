@@ -33,7 +33,7 @@ ggVennDiagram(x, set_color = 'black', label='both', set_size=3, label_size = 2, 
 
 ggsave('fig_venn/fig_venn.tiff', width=132, height=85, units='mm', dpi=300)
 ggsave('fig_venn/fig_venn.png', width=132, height=85, units='mm', dpi=300, bg='white')
-  
+ggsave('fig_venn/fig_venn.pdf', width=132, height=85, units='mm')  
 
 
 
@@ -41,18 +41,20 @@ ggsave('fig_venn/fig_venn.png', width=132, height=85, units='mm', dpi=300, bg='w
 # Stats ----
 venn <- Venn(x)
 data <- process_data(venn)
-stat_categories <- lengths(x)  # number of sites per category
 
+stat_total <- c(x$A, x$B, x$C, x$D) %>% unique() %>% length() # number of sites in total category
 x$A %>% length() # archaeological sites
 x$B %>% length() # human sites
 x$C %>% length() # plant sites
 x$D %>% length() # faunal sites
 
-stat_total <- c(x$A, x$B, x$C, x$D) %>% unique() %>% length() # number of sites in total category
 stat_single <- data@region %>% filter(id %in% c(1,2,3,4)) %>% pull(count) %>% sum()   # number of loclaities with 1 category
 stat_double <- data@region %>% filter(id %in% c(12,13,14,23,24,34)) %>% pull(count) %>% sum()   # number of loclaities with 2 categories
+stat_double/stat_total
 stat_triple <- data@region %>% filter(id %in% c(123,124,134,234)) %>% pull(count) %>% sum()   # number of loclaities with 3 categories
+stat_triple/stat_total
 stat_quadruple <- data@region %>% filter(id %in% c(1234)) %>% pull(count) %>% sum()   # number of loclaities with 4 categories
+stat_quadruple/stat_total
 stat_double+stat_triple+stat_quadruple  # More than 1 discipline
 (stat_double+stat_triple+stat_quadruple)/stat_total # More than 1 discipline
 

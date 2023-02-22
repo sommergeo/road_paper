@@ -131,11 +131,22 @@ table4 <- table %>%
   filter(!query_age_min==-1 | query_age_max==-1) %>% 
   mutate(age_mean=(query_age_max+query_age_min)/2, age_range=(query_age_max-query_age_min))
 
+library("scales")
+reverselog_trans <- function(base = exp(1)) {
+  trans <- function(x) -log(x, base)
+  inv <- function(x) base^(-x)
+  trans_new(paste0("reverselog-", format(base)), trans, inv, 
+            log_breaks(base = base), 
+            domain = c(1e-100, Inf))
+}
+
 plt3 <- ggplot()+
   geom_rect(aes(xmin = 20000, xmax = 3000000, ymin = 0, ymax = Inf, fill='scope'))+
   geom_histogram(data=table4, aes(x=age_mean, fill=country_continent.continent))+
-  scale_x_log10(breaks = c(1000, 10000, 100000, 1000000, 6000000), limits=c(1000,6000000),
-                labels = c(1, 10, 100, 1000, 6000), expand = c(0,0))+  
+  scale_x_continuous(breaks = c(6000000, 1000000, 100000, 10000, 1000), limits=c(6000000,1000),
+                     labels = c(6000, 1000, 100, 10, 1), expand = c(0,0), trans=reverselog_trans(10))+
+  #scale_x_log10(breaks = c(1000, 10000, 100000, 1000000, 6000000), limits=c(1000,6000000),
+  #              labels = c(1, 10, 100, 1000, 6000), expand = c(0,0))+  
   scale_y_continuous(breaks=seq(0,4000,500),expand = c(0,0))+
   annotation_logticks(sides='b')+
   labs(x='Age (ka BP)', y='Number of assemblages')+
@@ -144,7 +155,7 @@ plt3 <- ggplot()+
                     labels = c('Africa','Asia','Europe','Project\ntimeframe'), 
                     guide = guide_legend(override.aes = list(alpha = 1)))+
   theme_pub()+
-  theme(legend.justification = c(0, 1), legend.position = c(0.02, 0.98),
+  theme(legend.justification = c(1, 1), legend.position = c(0.98, 0.98),
     #legend.title = element_text(colour="black", size=8),
     #legend.text = element_text(colour="black", size=8),
     legend.background = element_rect(fill='#FFFFFF00',
