@@ -28,12 +28,12 @@ table <- table %>% mutate(dating_method=recode(dating_method,
                                                     'ESR (electron spin resonance) dating' = 'ESR',
                                                     'TL (thermoluminescence) dating'='TL',
                                                     'ESR (electron spin resonance) dating, U series (uranium-thorium) dating' = 'Multiple methods',
-                                                    'Ar/Ar (argon-argon) dating'='Ar Series',
+                                                    'Ar/Ar (argon-argon) dating'='Ar series',
                                                     'IRSL (infrared stimulated luminescence) dating'='Infrared',
                                                     'AAR (amino acid racemization) dating'='Other',
                                                     'IRSL post-IR (post-infrared infrared stimulated luminescence) dating'='Infrared',
                                                     'U series (uranium-lead) dating'='U series',
-                                                    'K/Ar (potassium-argon) dating'='Ar Series',
+                                                    'K/Ar (potassium-argon) dating'='Ar series',
                                                     'unknown'='Unknown',
                                                     'Al/Be (aluminum-beryllium) dating'='Cosmogenic nuclide',
                                                     'cosmogenic nuclide dating'='Cosmogenic nuclide',
@@ -54,7 +54,7 @@ table <- table %>% mutate(dating_method=recode(dating_method,
                                                     'Al/Be (aluminum-beryllium) dating, cosmogenic nuclide dating'='Multiple methods',
                                                     'obsidian hydration dating'='Other',
                                                     'TL (thermoluminescence) dating, IRSL (infrared stimulated luminescence) dating'='Multiple methods',
-                                                    'Ar/Ar (argon-argon) dating, geology' = 'Ar Series',
+                                                    'Ar/Ar (argon-argon) dating, geology' = 'Ar series',
                                                     'geology, magnetostratigraphy'='Other',
                                                     'IRSL (infrared stimulated luminescence) dating, OSL (optically stimulated thermoluminescence) dating'='Multiple methods',
                                                     'Rb/Sr (rubidium-strontium) dating'='Other',
@@ -120,6 +120,6 @@ plt1 <- ggplot()+
 plt1
 ggsave('fig_coverage_temporal/fig_coverage_temporal.png', width=132, height=90, units='mm', dpi=300, bg='white')
 ggsave('fig_coverage_temporal/fig_coverage_temporal.tiff', width=132, height=90, units='mm', dpi=300, bg='white')
-
+ggsave('fig_coverage_temporal/fig_coverage_temporal.pdf', width=132, height=90, units='mm', bg='white')
 
 #https://colordesigner.io/gradient-generator

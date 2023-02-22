@@ -6,9 +6,9 @@ library(cowplot)
 
 # Import data
 table <- read_delim('fig_coverage/road_coverage.csv', 
-                    delim = ';', escape_double = FALSE, trim_ws = TRUE)
+                    delim = ',', escape_double = FALSE, trim_ws = TRUE) %>% select(-...1)
 
-table[is.na(table$locality.x)|is.na(table$locality.y),] # Show localities without coordinates
+table[is.na(table$locality.x)|is.na(table$locality.y),] %>% count() # Show localities without coordinates
 table[is.na(table$locality.idlocality),] # Show localities without locality name
 
 
@@ -103,7 +103,7 @@ table3 <- table %>%
 plt2 <- ggplot()+
   geom_bar(data=table3, stat = 'identity', aes(y=country_continent.continent, x=value, fill=variable), position=position_dodge2(reverse=T))+
   scale_fill_manual(values=c('#F07241', '#A70D1F'), name='Number of', labels=c('assemblages','localities'))+
-  scale_x_continuous(limits=c(0,13500), breaks = seq(0,12000,2000), expand = c(0,0))+
+  scale_x_continuous(limits=c(0,14500), breaks = seq(0,14000,2000), expand = c(0,0))+
   labs(x='Count', y='')+
   geom_text(data=table3, stat='identity', aes(y=country_continent.continent, x=value, group=variable, label=value), position = position_dodge2(width = .9, reverse=T), hjust=-.1, size=2.8)+
   theme_pub()+
@@ -127,14 +127,16 @@ ggsave('fig_coverage/fig_coverage_B.png', width=180, height=180, units='mm', dpi
 
 
 # Time chart
-table <- table %>% mutate(age_mean=(query_age_max+query_age_min)/2, age_range=(query_age_max-query_age_min))
+table4 <- table %>%
+  filter(!query_age_min==-1 | query_age_max==-1) %>% 
+  mutate(age_mean=(query_age_max+query_age_min)/2, age_range=(query_age_max-query_age_min))
 
 plt3 <- ggplot()+
   geom_rect(aes(xmin = 20000, xmax = 3000000, ymin = 0, ymax = Inf, fill='scope'))+
-  geom_histogram(data=table, aes(x=age_mean, fill=country_continent.continent))+
+  geom_histogram(data=table4, aes(x=age_mean, fill=country_continent.continent))+
   scale_x_log10(breaks = c(1000, 10000, 100000, 1000000, 6000000), limits=c(1000,6000000),
                 labels = c(1, 10, 100, 1000, 6000), expand = c(0,0))+  
-  scale_y_continuous(breaks=seq(0,3000,500), limits=c(0,3000),expand = c(0,0))+
+  scale_y_continuous(breaks=seq(0,4000,500),expand = c(0,0))+
   annotation_logticks(sides='b')+
   labs(x='Age (ka BP)', y='Number of assemblages')+
   scale_fill_manual(name=NULL, 
@@ -165,8 +167,6 @@ ggsave('fig_coverage/fig_coverage_C.png', width=180, height=180, units='mm', dpi
 
 # Combine plots
 bottom_row <- plot_grid(plt2, plt3, labels = c('B', 'C'), align='hv', axis='tblr', label_size = 10, ncol=2)
-bottom_row
-
 top_row <- plot_grid(plt1, labels=c('A'), label_size=10)
 
 full_plot <- plot_grid(top_row, bottom_row, nrow=2, rel_heights = c(2,.8), align='h', axis='l')
@@ -174,6 +174,7 @@ full_plot
 
 ggsave('fig_coverage/fig_coverage.png', width=190.5, height=200, units='mm', dpi=300, bg='white')
 ggsave('fig_coverage/fig_coverage.tiff', width=190.5, height=200, units='mm', dpi=300, bg='white')
+ggsave('fig_coverage/fig_coverage.pdf', width=190.5, height=200, units='mm', bg='white')
 
 
 # Notes ----

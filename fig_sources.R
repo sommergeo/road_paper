@@ -40,7 +40,7 @@ plt1 <- ggplot()+
   geom_histogram(data=road_sources, aes(x=publication_view.publication_year), binwidth = 1, fill='#4D4E6B')+
   scale_x_continuous(breaks = seq(0, 2030, by = 20), limits=c(1865,2023), expand = c(0,0))+
   scale_y_continuous(breaks = c(0, 10, 50, 100, 150, 200), expand = c(0,0))+
-  labs(x='Year of publication', y='Count')+
+  labs(x='Year of publication', y='Number of titles')+
   theme_pub()+
   theme(panel.grid.major.y = element_line(color = '#CCCCCC', linetype = 'solid', size = 0.4),
         plot.margin = margin(l=6, t=6, b=6, r=6, 'pt'))
@@ -61,7 +61,7 @@ plt2 <- ggplot(data=most_cited, aes(n), color='#4D4E6B')+
     aes(x=0.9-rank_perc[375], y=1.1-cumsum_perc[397], xend=1-rank_perc[397], yend=1-cumsum_perc[397]), curvature=-0.5,
     arrow = arrow(length = unit(4, 'pt'))
   )+
-  geom_label(aes(x=0.9-rank_perc[375],  y=1.1-cumsum_perc[397], label = 'Single titles comprise\n20% (n=1027) of titles'), 
+  geom_label(aes(x=0.9-rank_perc[375],  y=1.1-cumsum_perc[397], label = 'Single titles comprise\n20% (n=1028) of titles'), 
             hjust = 1.1, 
             vjust = 0.5, 
             size = 2.8, fill='white', label.size=NA)+
@@ -75,7 +75,7 @@ plt2 <- ggplot(data=most_cited, aes(n), color='#4D4E6B')+
        y = "Cumulative percentage of titles")+
   theme_pub()+
   theme(plot.margin = margin(l=6, t=6, b=6, r=6, 'pt'),
-        panel.border = element_rect(colour = "black", fill=NA))
+        panel.border = element_rect(colour = "black", fill=NA, size=.4))
 plt2
 
 ggsave('fig_sources/fig_sources_B.png', width=90, height=90, units='mm', dpi=300, bg='white')
@@ -89,6 +89,7 @@ plt
 
 ggsave('fig_sources/fig_sources.png', width=190.5, height=75, units='mm', dpi=300, bg='white')
 ggsave('fig_sources/fig_sources.tiff', width=190.5, height=75, units='mm', dpi=300, bg='white')
+ggsave('fig_sources/fig_sources.pdf', width=190.5, height=75, units='mm', bg='white')
 
 
 
