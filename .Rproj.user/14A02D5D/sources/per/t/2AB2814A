@@ -3,7 +3,7 @@
     "path": "C:/data/git/road_paper/fig_coverage_temporal.R",
     "project_path": "fig_coverage_temporal.R",
     "type": "r_source",
-    "hash": "3971024742",
+    "hash": "3602903774",
     "contents": "",
     "dirty": false,
     "created": 1668420181894.0,
@@ -13,15 +13,15 @@
         "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "132,0",
-        "scrollLine": "97"
+        "cursorPosition": "135,0",
+        "scrollLine": "100"
     },
     "folds": "",
-    "lastKnownWriteTime": 1677081551,
+    "lastKnownWriteTime": 1677158484,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1677081551560,
+    "last_content_update": 1677158484723,
     "read_only": false,
     "read_only_alternatives": []
 }

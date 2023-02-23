@@ -100,17 +100,20 @@ reverselog_trans <- function(base = exp(1)) {
 
 
 plt1 <- ggplot()+
-  coord_fixed()+
   geom_rect(aes(xmin = 20000, xmax = 3000000, ymin = 0, ymax = Inf, fill='scope'))+
   geom_point(data=table, aes(x=age_mean, y=age_range, color=dating_method), alpha=1, shape=20, size=1)+
   scale_x_continuous(breaks = c(6000000, 1000000, 100000, 10000, 1000,100), limits=c(6000000,100),
                                    labels = c(6000, 1000, 100, 10, 1,.1), expand = c(0,0), trans=reverselog_trans(10))+
-  
+  scale_y_continuous(breaks = c(100, 1000, 10000, 100000, 1000000, 3000000), limits=c(10,3000000),
+                labels = c(.1, 1, 10, 100, 1000, 3000), expand = c(0,0), trans='log10')+  
+  #scale_x_continuous(breaks = c(1000, 10000, 100000, 1000000, 6000000), limits=c(100,6000000),
+  #              labels = c(1, 10, 100, 1000, 6000), expand = c(0,0))+  
   #scale_x_log10(breaks = c(1000, 10000, 100000, 1000000, 6000000), limits=c(100,6000000),
   #              labels = c(1, 10, 100, 1000, 6000), expand = c(0,0))+
-  scale_y_log10(breaks = c(100, 1000, 10000, 100000, 1000000, 3000000), limits=c(10,3000000),
-                labels = c(.1, 1, 10, 100, 1000, 3000), expand = c(0,0))+
-  annotation_logticks()+
+  #scale_y_log10(breaks = c(100, 1000, 10000, 100000, 1000000, 3000000), limits=c(10,3000000),
+  #              labels = c(.1, 1, 10, 100, 1000, 3000), expand = c(0,0))+
+  #annotation_logticks(sides='lb')+
+  coord_fixed()+
   labs(x='Mean age (ka BP)', y='Age uncertainty (ka)')+
   scale_fill_manual(name=NULL,
                     values = '#FFD28A',
