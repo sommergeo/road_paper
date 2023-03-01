@@ -39,7 +39,7 @@ world$admin
 ## Align countries with natural earth data (i will regret this)
 table <- table %>% mutate(locality.country=recode(locality.country,
                                                   "Congo, Democratic Republic of the [Zaire]"='Democratic Republic of the Congo',
-                                                  'Congo, Republic of the' = 'Democratic Republic of the Congo',
+                                                  'Congo, Republic of the' = 'Republic of Congo',
                                                   'Eswatini' = 'Swaziland',
                                                   'Gibraltar' = 'United Kingdom',
                                                   'Jersey' = 'United Kingdom',

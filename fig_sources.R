@@ -75,7 +75,7 @@ plt2 <- ggplot(data=most_cited, aes(n), color='#4D4E6B')+
        y = "Cumulative percentage of titles")+
   theme_pub()+
   theme(plot.margin = margin(l=6, t=6, b=6, r=6, 'pt'),
-        panel.border = element_rect(colour = "black", fill=NA, size=.4))
+        panel.border = element_rect(colour = "black", fill=NA, size=.5))
 plt2
 
 ggsave('fig_sources/fig_sources_B.png', width=90, height=90, units='mm', dpi=300, bg='white')

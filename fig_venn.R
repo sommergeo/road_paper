@@ -7,17 +7,18 @@ x <- list(
                col_names = FALSE, locale = locale(encoding = "ASCII"))$X1, 
   B = read_csv("fig_venn/ListeB_humanRemains.csv", 
                col_names = FALSE, locale = locale(encoding = "ASCII"))$X1, 
-  C = read_csv("fig_venn/ListeC_plantRemains.csv", 
-               col_names = FALSE, locale = locale(encoding = "ASCII"))$X1,
   D = read_csv("fig_venn/ListeD_paleofauna_animalRemains.csv", 
+               col_names = FALSE, locale = locale(encoding = "ASCII"))$X1,
+  C = read_csv("fig_venn/ListeC_plantRemains.csv", 
                col_names = FALSE, locale = locale(encoding = "ASCII"))$X1
+
 )
 
 
 
 # Venn diagram ----
 ggVennDiagram(x, set_color = 'black', label='both', set_size=3, label_size = 2, edge_size = 0.5,
-              category.names = c('Cultural remains', 'Human remains', 'Plant remains', 'Faunal remains'))+
+              category.names = c('Cultural remains', 'Human remains', 'Faunal remains', 'Plant remains'))+
   scale_x_continuous(expand = expansion(mult = .2))+
   scale_y_continuous(expand = expansion(mult = .2))+
   scale_fill_gradient(name='Number of\nLocalities',
@@ -31,8 +32,8 @@ ggVennDiagram(x, set_color = 'black', label='both', set_size=3, label_size = 2, 
         legend.text=element_text(size=8), #change font size of legend text
         legend.title=element_text(size=8))
 
-ggsave('fig_venn/fig_venn.tiff', width=132, height=85, units='mm', dpi=300)
 ggsave('fig_venn/fig_venn.png', width=132, height=85, units='mm', dpi=300, bg='white')
+ggsave('fig_venn/fig_venn.tiff', width=132, height=85, units='mm', dpi=300, bg='white')
 ggsave('fig_venn/fig_venn.pdf', width=132, height=85, units='mm')  
 
 
