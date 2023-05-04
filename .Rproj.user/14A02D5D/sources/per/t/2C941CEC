@@ -1,0 +1,27 @@
+{
+    "id": "2C941CEC",
+    "path": "C:/data/git/road_paper/fig_sources.R",
+    "project_path": "fig_sources.R",
+    "type": "r_source",
+    "hash": "514019514",
+    "contents": "",
+    "dirty": false,
+    "created": 1683213567426.0,
+    "source_on_save": false,
+    "relative_order": 5,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "3,16",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1677230664,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1677230664,
+    "read_only": false,
+    "read_only_alternatives": []
+}
